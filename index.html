@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unique Motors — Curated Automotive, Staten Island NY</title>
+    <meta name="description" content="Unique Motors. A curated automotive sourcing partner specializing in rare, exceptional, and collector vehicles." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- ============================================
+         1. STICKY HEADER
+         ============================================ -->
+    <header class="header" data-header>
+        <div class="header-inner">
+            <a href="#top" class="header-logo" aria-label="Unique Motors — home">
+                <img src="assets/images/logo.svg" alt="Unique Motors" />
+            </a>
+            <nav class="header-nav" aria-label="Primary">
+                <a href="#inventory">Inventory</a>
+                <a href="#sold">Sold</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+
+        <!-- ============================================
+             2. HERO
+             ============================================ -->
+        <section class="hero" data-hero>
+            <div class="hero-media">
+                <img class="hero-img" src="assets/images/hero.jpg" alt="" data-hero-img />
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="hero-content">
+                <p class="hero-eyebrow" data-hero-line>Est. 1962 — Staten Island, NY</p>
+                <h1 class="hero-title">
+                    <span class="line"><span data-hero-line>The cars worth</span></span>
+                    <span class="line"><span data-hero-line>finding.</span></span>
+                </h1>
+                <p class="hero-sub" data-hero-line>
+                    A curated dealership and private sourcing partner for rare,
+                    exceptional, and collector vehicles.
+                </p>
+                <div class="hero-actions" data-hero-line>
+                    <a class="btn btn--primary" href="#inventory">View Inventory</a>
+                    <a class="btn btn--ghost" href="#contact">Source a Vehicle</a>
+                </div>
+            </div>
+
+            <div class="hero-scrollcue" data-hero-line aria-hidden="true">
+                <span>Scroll</span>
+                <span class="hero-scrollcue-line"></span>
+            </div>
+        </section>
+
+        <!-- ============================================
+             3. FEATURED INVENTORY
+             ============================================ -->
+        <section id="inventory" class="inventory">
+            <div class="section-head">
+                <p class="eyebrow" data-reveal>Featured Inventory</p>
+                <h2 class="section-title" data-reveal>Currently in the showroom.</h2>
+            </div>
+
+            <div class="cards">
+                <article class="card" data-card>
+                    <a class="card-link" href="#">
+                        <div class="card-media">
+                            <img src="assets/images/car-1.jpg" alt="1995 Porsche 911 Carrera RS" />
+                        </div>
+                        <div class="card-body">
+                            <p class="card-year">1995</p>
+                            <h3 class="card-name">Porsche 911 Carrera RS</h3>
+                            <p class="card-spec">3.8L Flat-Six · Manual · 9,420 mi</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="card is-sold" data-card>
+                    <a class="card-link" href="#">
+                        <span class="card-tag">Sold</span>
+                        <div class="card-media">
+                            <img src="assets/images/car-2.jpg" alt="1973 Mercedes-Benz 280 SL Pagoda" />
+                        </div>
+                        <div class="card-body">
+                            <p class="card-year">1973</p>
+                            <h3 class="card-name">Mercedes-Benz 280 SL Pagoda</h3>
+                            <p class="card-spec">2.8L I6 · Automatic · Matching Numbers</p>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="card" data-card>
+                    <a class="card-link" href="#">
+                        <div class="card-media">
+                            <img src="assets/images/car-3.jpg" alt="1989 Ferrari Testarossa" />
+                        </div>
+                        <div class="card-body">
+                            <p class="card-year">1989</p>
+                            <h3 class="card-name">Ferrari Testarossa</h3>
+                            <p class="card-spec">4.9L Flat-12 · Manual · Rosso Corsa</p>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- ============================================
+             4. ABOUT
+             ============================================ -->
+        <section id="about" class="about" data-about>
+            <div class="about-bg" data-about-bg aria-hidden="true"></div>
+            <div class="about-inner">
+                <p class="eyebrow" data-reveal>About Unique Motors</p>
+                <h2 class="about-title" data-reveal-split>
+                    We do not sell every car.<br />
+                    We find the ones worth keeping.
+                </h2>
+                <div class="about-body">
+                    <p data-reveal>
+                        For three generations, Unique Motors has operated as a private sourcing
+                        partner and curated dealership for collectors, enthusiasts, and quiet
+                        connoisseurs. Each vehicle is chosen for its history, its honesty,
+                        and the way it drives — not its margin.
+                    </p>
+                    <p data-reveal>
+                        We work slowly, deliberately, and with a small client list. Most of what
+                        passes through the showroom never makes it to a public listing.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             5. RECENTLY SOLD — horizontal carousel
+             ============================================ -->
+        <section id="sold" class="sold">
+            <div class="section-head sold-head">
+                <div>
+                    <p class="eyebrow" data-reveal>Recently Sold</p>
+                    <h2 class="section-title" data-reveal>From our archives.</h2>
+                </div>
+                <div class="sold-controls">
+                    <button class="sold-arrow" data-sold-prev aria-label="Previous">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                            <path d="M15 5l-7 7 7 7" />
+                        </svg>
+                    </button>
+                    <button class="sold-arrow" data-sold-next aria-label="Next">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+                            <path d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sold-track" data-sold-track>
+                <div class="sold-rail" data-sold-rail>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-1.jpg" alt="" /></div>
+                        <p class="sold-year">1971</p>
+                        <h3 class="sold-name">BMW 2002 tii</h3>
+                        <p class="sold-spec">Inka Orange · Restored</p>
+                    </article>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-2.jpg" alt="" /></div>
+                        <p class="sold-year">1985</p>
+                        <h3 class="sold-name">Lancia Delta HF Integrale</h3>
+                        <p class="sold-spec">Evoluzione · Group A heritage</p>
+                    </article>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-3.jpg" alt="" /></div>
+                        <p class="sold-year">1969</p>
+                        <h3 class="sold-name">Jaguar E-Type Series 2</h3>
+                        <p class="sold-spec">Roadster · Carmen Red</p>
+                    </article>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-4.jpg" alt="" /></div>
+                        <p class="sold-year">1992</p>
+                        <h3 class="sold-name">Acura NSX</h3>
+                        <p class="sold-spec">Berlina Black · 5-Speed</p>
+                    </article>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-5.jpg" alt="" /></div>
+                        <p class="sold-year">1976</p>
+                        <h3 class="sold-name">Alfa Romeo Spider Veloce</h3>
+                        <p class="sold-spec">Long-term ownership</p>
+                    </article>
+                    <article class="sold-card">
+                        <div class="sold-media"><img src="assets/images/sold-6.jpg" alt="" /></div>
+                        <p class="sold-year">2002</p>
+                        <h3 class="sold-name">Porsche 911 GT2</h3>
+                        <p class="sold-spec">996 · Seal Grey</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             6. INSTAGRAM
+             ============================================ -->
+        <section class="ig">
+            <div class="section-head ig-head">
+                <p class="eyebrow" data-reveal>@uniquemotors</p>
+                <h2 class="section-title" data-reveal>Follow our latest arrivals.</h2>
+            </div>
+
+            <div class="ig-grid">
+                <a class="ig-tile" href="#" data-reveal>
+                    <img src="assets/images/insta-1.jpg" alt="" />
+                </a>
+                <a class="ig-tile" href="#" data-reveal>
+                    <img src="assets/images/insta-2.jpg" alt="" />
+                </a>
+                <a class="ig-tile" href="#" data-reveal>
+                    <img src="assets/images/insta-3.jpg" alt="" />
+                </a>
+                <a class="ig-tile" href="#" data-reveal>
+                    <img src="assets/images/insta-4.jpg" alt="" />
+                </a>
+            </div>
+
+            <div class="ig-cta" data-reveal>
+                <a class="btn btn--ghost" href="https://instagram.com/" target="_blank" rel="noopener">Follow on Instagram</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================
+         7. FOOTER
+         ============================================ -->
+    <footer id="contact" class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a class="footer-logo" href="#top" aria-label="Unique Motors — home">
+                    <img src="assets/images/logo.svg" alt="Unique Motors" />
+                </a>
+                <p class="footer-tag">Curated automotive, since 1962.</p>
+            </div>
+
+            <div class="footer-cols">
+                <div class="footer-col">
+                    <p class="footer-label">Visit</p>
+                    <p>158 David Street<br />Staten Island, NY 10308</p>
+                </div>
+                <div class="footer-col">
+                    <p class="footer-label">Contact</p>
+                    <p>
+                        <a href="tel:+17189879999">718 987 9999</a><br />
+                        <a href="mailto:hello@uniquemotors.com">hello@uniquemotors.com</a>
+                    </p>
+                </div>
+                <div class="footer-col">
+                    <p class="footer-label">Navigate</p>
+                    <ul class="footer-links">
+                        <li><a href="#inventory">Inventory</a></li>
+                        <li><a href="#sold">Sold</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 1962 — 2026 Unique Motors. All rights reserved.</p>
+            <p>By appointment only.</p>
+        </div>
+    </footer>
+
+    <!-- GSAP + ScrollTrigger via CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
