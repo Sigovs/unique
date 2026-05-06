@@ -20,12 +20,12 @@
     --accent-2:          #b89455;
     --accent-soft:       rgba(201, 169, 107, 0.16);
 
-    /* Type families */
+    /* Type families — Satoshi (premium grotesque), Cormorant for display */
     --font-display: "Cormorant Garamond", "Times New Roman", serif;
-    --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    --font-body:    "Satoshi", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
 
-    /* Type scale — editorial */
-    --type-hero:        clamp(3.25rem, 9vw, 8.5rem);
+    /* Type scale — editorial. Hero capped at 7rem per taste-skill (NO oversized H1s). */
+    --type-hero:        clamp(3rem, 7.5vw, 7rem);
     --type-display-lg:  clamp(2.5rem, 6vw, 5rem);
     --type-display-md:  clamp(2rem,   4.5vw, 3.5rem);
     --type-headline:    clamp(1.4rem, 2vw, 1.75rem);
@@ -112,6 +112,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 :focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
 ::selection    { background: var(--accent-soft); color: var(--on-surface); }
 
+/* Premium grain — fixed pseudo, pointer-events:none, off the scroll layer */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.045;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 220px 220px;
+}
+
 /* =========================================================
    Shared editorial primitives
    ========================================================= */
@@ -149,10 +162,10 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     text-transform: uppercase;
     border: 1px solid transparent;
     border-radius: 0;          /* sharp, editorial */
+    /* transform owned by GSAP for magnetic buttons — not in CSS transition */
     transition: background var(--dur-sm) var(--ease-cinema),
                 color var(--dur-sm) var(--ease-cinema),
-                border-color var(--dur-sm) var(--ease-cinema),
-                transform var(--dur-md) var(--ease-cinema);
+                border-color var(--dur-sm) var(--ease-cinema);
 }
 
 .btn--primary {
@@ -234,13 +247,17 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     color: var(--accent);
 }
 
-/* Compact + frosted state — toggled by JS */
+/* Compact + frosted state — toggled by JS.
+   Liquid Glass refraction: inner 1px highlight + tinted edge shadow. */
 .header.is-scrolled {
     height: var(--header-h-compact);
     background-color: var(--surface-glass);
     -webkit-backdrop-filter: blur(18px) saturate(140%);
             backdrop-filter: blur(18px) saturate(140%);
     border-bottom-color: var(--line);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 1px 0 rgba(0, 0, 0, 0.4);
 }
 
 .header.is-scrolled .header-logo img {
@@ -360,13 +377,39 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     border-top: 1px solid var(--line);
 }
 
+/* Bento layout — taste-skill: NO 3-equal-column card rows.
+   1 large feature card + 2 stacked secondary cards on the right. */
 .cards {
     max-width: var(--container);
     margin: 0 auto;
     padding: 0 var(--gutter);
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-7);
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+@media (min-width: 900px) {
+    .cards {
+        grid-template-columns: 7fr 5fr;
+        grid-template-rows: 1fr 1fr;
+        gap: var(--space-6) var(--space-7);
+    }
+    .card:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+    }
+    .card:nth-child(1) .card-link {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .card:nth-child(1) .card-media {
+        flex: 1;
+        aspect-ratio: auto;
+        min-height: 30rem;
+    }
+    .card:nth-child(2) { grid-column: 2; grid-row: 1; }
+    .card:nth-child(3) { grid-column: 2; grid-row: 2; }
 }
 
 .card {

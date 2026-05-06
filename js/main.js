@@ -290,6 +290,34 @@
     };
 
     /* -----------------------------------------------------
+     * 9. Magnetic buttons — taste-skill MOTION_INTENSITY > 5
+     *    Cursor-pull via gsap.quickTo (off the React/render
+     *    cycle equivalent — direct GSAP transform).
+     *    Skipped on touch devices to prevent stuck offsets.
+     * --------------------------------------------------- */
+    const initMagnetic = () => {
+        const isTouch = window.matchMedia("(hover: none)").matches;
+        if (isTouch) return;
+
+        const targets = document.querySelectorAll("[data-magnetic]");
+        targets.forEach((el) => {
+            const xTo = gsap.quickTo(el, "x", { duration: 0.55, ease: "power3.out" });
+            const yTo = gsap.quickTo(el, "y", { duration: 0.55, ease: "power3.out" });
+            const strength = 0.28;
+
+            el.addEventListener("mousemove", (e) => {
+                const r = el.getBoundingClientRect();
+                xTo((e.clientX - r.left - r.width / 2) * strength);
+                yTo((e.clientY - r.top - r.height / 2) * strength);
+            });
+            el.addEventListener("mouseleave", () => {
+                xTo(0);
+                yTo(0);
+            });
+        });
+    };
+
+    /* -----------------------------------------------------
      * Boot
      * --------------------------------------------------- */
     const start = () => {
@@ -308,6 +336,7 @@
         initAboutParallax();
         initCards();
         initSoldCarousel();
+        initMagnetic();
 
         // Refresh after fonts/images settle so triggers measure correctly.
         window.addEventListener("load", () => ScrollTrigger.refresh());
