@@ -8,9 +8,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -24,12 +22,18 @@
             <a href="#top" class="header-logo" aria-label="Unique Motors — home">
                 <img src="assets/images/logo.svg" alt="Unique Motors" />
             </a>
-            <nav class="header-nav" aria-label="Primary">
-                <a href="#inventory">Inventory</a>
-                <a href="#sold">Sold</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
+            <div class="header-right">
+                <nav class="header-nav" aria-label="Primary">
+                    <a href="#inventory">Inventory</a>
+                    <a href="#sold">Sold</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+                <a class="btn btn--accent btn--sm" href="tel:+17189879999" data-magnetic>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.16.39 2.42.6 3.71.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.29.21 2.55.6 3.71a1 1 0 0 1-.25 1.05l-2.23 2.03z"/></svg>
+                    718-987-9999
+                </a>
+            </div>
         </div>
     </header>
 
@@ -56,7 +60,6 @@
                 </p>
                 <div class="hero-actions" data-hero-line>
                     <a class="btn btn--primary" href="#inventory" data-magnetic>View Inventory</a>
-                    <a class="btn btn--ghost" href="#contact" data-magnetic>Source a Vehicle</a>
                 </div>
             </div>
 
@@ -79,26 +82,24 @@
                 <article class="card" data-card>
                     <a class="card-link" href="#">
                         <div class="card-media">
-                            <img src="assets/images/car-1.jpg" alt="1995 Porsche 911 Carrera RS" />
+                            <img src="assets/images/car-1.jpg" alt="2022 Porsche 911 Carrera S" />
                         </div>
                         <div class="card-body">
-                            <p class="card-year">1995</p>
-                            <h3 class="card-name">Porsche 911 Carrera RS</h3>
-                            <p class="card-spec">3.8L Flat-Six · Manual · 9,420 mi</p>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="card is-sold" data-card>
-                    <a class="card-link" href="#">
-                        <span class="card-tag">Sold</span>
-                        <div class="card-media">
-                            <img src="assets/images/car-2.jpg" alt="1973 Mercedes-Benz 280 SL Pagoda" />
-                        </div>
-                        <div class="card-body">
-                            <p class="card-year">1973</p>
-                            <h3 class="card-name">Mercedes-Benz 280 SL Pagoda</h3>
-                            <p class="card-spec">2.8L I6 · Automatic · Matching Numbers</p>
+                            <h3 class="card-name">2022 Porsche 911 Carrera S</h3>
+                            <ul class="card-specs">
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 12a9 9 0 1 1 18 0"/><path d="M12 12l4-3"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+                                    35,000 mi
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>
+                                    2022
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="6" cy="17" r="2"/><path d="M6 9v6M6 12h12M18 9v6"/></svg>
+                                    Automatic
+                                </li>
+                            </ul>
                         </div>
                     </a>
                 </article>
@@ -106,15 +107,31 @@
                 <article class="card" data-card>
                     <a class="card-link" href="#">
                         <div class="card-media">
-                            <img src="assets/images/car-3.jpg" alt="1989 Ferrari Testarossa" />
+                            <img src="assets/images/car-2.jpg" alt="2022 Porsche 911 Carrera 4" />
                         </div>
                         <div class="card-body">
-                            <p class="card-year">1989</p>
-                            <h3 class="card-name">Ferrari Testarossa</h3>
-                            <p class="card-spec">4.9L Flat-12 · Manual · Rosso Corsa</p>
+                            <h3 class="card-name">2022 Porsche 911 Carrera 4</h3>
+                            <ul class="card-specs">
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 12a9 9 0 1 1 18 0"/><path d="M12 12l4-3"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+                                    56,000 mi
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></svg>
+                                    2022
+                                </li>
+                                <li>
+                                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="6" cy="7" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="6" cy="17" r="2"/><path d="M6 9v6M6 12h12M18 9v6"/></svg>
+                                    Automatic
+                                </li>
+                            </ul>
                         </div>
                     </a>
                 </article>
+            </div>
+
+            <div class="cards-cta">
+                <a class="btn btn--accent" href="#" data-magnetic>View All</a>
             </div>
         </section>
 
@@ -124,11 +141,20 @@
         <section id="about" class="about" data-about>
             <div class="about-bg" data-about-bg aria-hidden="true"></div>
             <div class="about-inner">
-                <p class="eyebrow" data-reveal>About Unique Motors</p>
-                <h2 class="about-title" data-reveal-split>
-                    We do not sell every car.<br />
-                    We find the ones worth keeping.
-                </h2>
+                <div class="about-side">
+                    <p class="eyebrow" data-reveal>About Unique Motors</p>
+                    <h2 class="about-title" data-reveal-split>
+                        We do not sell every car.<br />
+                        We find the ones worth keeping.
+                    </h2>
+                    <div class="about-actions" data-reveal>
+                        <a class="btn btn--accent" href="tel:+17189879999" data-magnetic>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.16.39 2.42.6 3.71.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.29.21 2.55.6 3.71a1 1 0 0 1-.25 1.05l-2.23 2.03z"/></svg>
+                            718-987-9999
+                        </a>
+                        <a class="btn btn--ghost" href="#contact" data-magnetic>Contact us</a>
+                    </div>
+                </div>
                 <div class="about-body">
                     <p data-reveal>
                         Unique Motors is a private sourcing partner and curated dealership
@@ -243,41 +269,82 @@
          7. FOOTER
          ============================================ -->
     <footer id="contact" class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <a class="footer-logo" href="#top" aria-label="Unique Motors — home">
-                    <img src="assets/images/logo.svg" alt="Unique Motors" />
-                </a>
-                <p class="footer-tag">Curated automotive.</p>
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a class="footer-logo" href="#top" aria-label="Unique Motors — home">
+                        <img src="assets/images/logo.svg" alt="Unique Motors" />
+                    </a>
+                    <p class="footer-tag">
+                        Curated inventory, personalized sourcing, consignment strategy,
+                        and premium vehicle services.
+                    </p>
+                    <p class="footer-address">
+                        158 David Street, Staten Island, NY 10308
+                    </p>
+                    <div class="footer-actions">
+                        <a class="btn btn--accent" href="tel:+17189879999" data-magnetic>
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.05-.24c1.16.39 2.42.6 3.71.6a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.29.21 2.55.6 3.71a1 1 0 0 1-.25 1.05l-2.23 2.03z"/></svg>
+                            718-987-9999
+                        </a>
+                        <a class="btn btn--secondary" href="#contact" data-magnetic>Call for Consultation</a>
+                        <a class="btn btn--ghost" href="#contact" data-magnetic>Contact us</a>
+                    </div>
+                </div>
+
+                <div class="footer-cols">
+                    <div class="footer-col">
+                        <h4 class="footer-label">Inventory</h4>
+                        <ul class="footer-links">
+                            <li><a href="#inventory">Available inventory</a></li>
+                            <li><a href="#sold">Recently Sold</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4 class="footer-label">Find me a Car</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Sourcing</a></li>
+                            <li><a href="#">Recently Sourced</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4 class="footer-label">About</h4>
+                        <ul class="footer-links">
+                            <li><a href="#about">About us</a></li>
+                            <li><a href="#">Consign</a></li>
+                            <li><a href="#">Sell Your Car</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4 class="footer-label">Contact</h4>
+                        <ul class="footer-links">
+                            <li><a href="#">Detailing</a></li>
+                            <li><a href="#">Ceramic coating</a></li>
+                            <li><a href="#">Dry ice coating</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <div class="footer-cols">
-                <div class="footer-col">
-                    <p class="footer-label">Visit</p>
-                    <p>158 David Street<br />Staten Island, NY 10308</p>
-                </div>
-                <div class="footer-col">
-                    <p class="footer-label">Contact</p>
-                    <p>
-                        <a href="tel:+17189879999">718 987 9999</a><br />
-                        <a href="mailto:hello@uniquemotors.com">hello@uniquemotors.com</a>
-                    </p>
-                </div>
-                <div class="footer-col">
-                    <p class="footer-label">Navigate</p>
-                    <ul class="footer-links">
-                        <li><a href="#inventory">Inventory</a></li>
-                        <li><a href="#sold">Sold</a></li>
-                        <li><a href="#about">About</a></li>
-                        <li><a href="#contact">Contact</a></li>
+            <div class="footer-bottom">
+                <div class="footer-meta">
+                    <p>© 2026 Unique Motors. All rights reserved.</p>
+                    <ul class="footer-legal">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Legal</a></li>
                     </ul>
                 </div>
-            </div>
-        </div>
 
-        <div class="footer-bottom">
-            <p>© 2026 Unique Motors. All rights reserved.</p>
-            <p>By appointment only.</p>
+                <div class="footer-social" aria-label="Social">
+                    <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.87.24-1.46 1.49-1.46H17V4.43A21.6 21.6 0 0 0 14.7 4.3c-2.3 0-3.7 1.4-3.7 3.96v2.24H8.5v3H11V21h2.5z"/></svg></a>
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/></svg></a>
+                    <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M18.244 3H21l-6.522 7.49L22 21h-6.797l-5.32-6.512L3.65 21H1l7.057-8.082L1.5 3h6.91l4.81 6.04L18.244 3zm-1.193 16.36h1.65L7.04 4.55H5.27l11.78 14.81z"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M23 7.4a2.7 2.7 0 0 0-1.9-1.9C19.4 5 12 5 12 5s-7.4 0-9.1.5A2.7 2.7 0 0 0 1 7.4 28 28 0 0 0 .5 12 28 28 0 0 0 1 16.6a2.7 2.7 0 0 0 1.9 1.9C4.6 19 12 19 12 19s7.4 0 9.1-.5a2.7 2.7 0 0 0 1.9-1.9c.5-1.5.5-4.6.5-4.6s0-3.1-.5-4.6zM9.75 15.5v-7l6 3.5-6 3.5z"/></svg></a>
+                </div>
+
+                <p class="footer-powered">Powered by All Auto Network</p>
+            </div>
         </div>
     </footer>
 
