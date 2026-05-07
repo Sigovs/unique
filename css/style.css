@@ -361,11 +361,8 @@ body::before {
 }
 
 .hero-sub {
-    margin-top: 6.75rem;            /* Figma: 108px gap title→sub */
-    margin-bottom: 2.5rem;
+    margin: var(--space-5) auto var(--space-7);   /* tighter gap, matches reference */
     max-width: 50ch;
-    margin-left: auto;
-    margin-right: auto;
     font-size: var(--type-small);
     font-weight: 300;
     color: var(--on-surface);
@@ -405,10 +402,7 @@ body::before {
 .inventory {
     position: relative;
     padding: var(--space-10) 0 var(--space-9);
-    background:
-        radial-gradient(ellipse at center,
-            var(--surface-3) 0%,
-            var(--surface) 70%);
+    background: var(--surface);
 }
 
 .cards {
@@ -511,19 +505,15 @@ body::before {
     position: relative;
     padding: var(--space-10) 0 var(--space-10);
     overflow: hidden;
-    background:
-        radial-gradient(ellipse at center,
-            var(--surface-3) 0%,
-            var(--surface) 70%);
+    background: var(--surface);
 }
 
 .about-bg {
+    /* kept as no-op for the GSAP parallax target — invisible */
     position: absolute;
-    inset: -20% -5% -20% -5%;
+    inset: 0;
     z-index: 0;
-    background:
-        radial-gradient(ellipse at 70% 40%, rgba(18, 125, 138, 0.06), transparent 55%);
-    will-change: transform;
+    pointer-events: none;
 }
 
 .about-inner {
@@ -548,10 +538,6 @@ body::before {
         display: flex;
         flex-direction: column;
     }
-
-    /* Body text gravitates to bottom of column,
-       matching Figma where it sits ~160px below CTAs */
-    .about-body { margin-top: auto; }
 }
 
 .about-side .eyebrow { margin-bottom: var(--space-3); }

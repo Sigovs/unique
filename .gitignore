@@ -23,3 +23,7 @@ npm-debug.log*
 /*.jpeg
 /*.webp
 /*.gif
+
+# Design reference exports — kept locally, not in repo
+assets/images/refference*
+assets/images/reference*
