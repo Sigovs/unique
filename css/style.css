@@ -535,14 +535,23 @@ body::before {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-7);
-    align-items: start;
 }
 
 @media (min-width: 900px) {
     .about-inner {
-        grid-template-columns: 533fr 755fr;   /* matches Figma 533/755 */
-        gap: var(--space-7);
+        grid-template-columns: 533fr 755fr;   /* Figma 533/755 ratio */
+        gap: var(--space-6);                  /* Figma 30px gap */
+        /* default align-items: stretch — both columns equal height */
     }
+
+    .about-side {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Body text gravitates to bottom of column,
+       matching Figma where it sits ~160px below CTAs */
+    .about-body { margin-top: auto; }
 }
 
 .about-side .eyebrow { margin-bottom: var(--space-3); }
@@ -560,7 +569,7 @@ body::before {
     display: flex;
     gap: var(--space-4);
     flex-wrap: wrap;
-    margin-bottom: var(--space-7);
+    margin-bottom: var(--space-6);
 }
 
 .about-body {
@@ -574,14 +583,23 @@ body::before {
 
 .about-figure {
     margin: 0;
+    height: 100%;                          /* stretches to grid row height */
 }
 
 .about-figure img {
     width: 100%;
-    aspect-ratio: 755 / 396;          /* matches Figma right column */
+    height: 100%;
     object-fit: cover;
     border-radius: 10px;
     display: block;
+    /* Mobile fallback aspect — overridden when grid row supplies a height */
+    aspect-ratio: 755 / 396;
+}
+
+@media (min-width: 900px) {
+    .about-figure img {
+        aspect-ratio: auto;                /* let grid row drive height on desktop */
+    }
 }
 
 /* =========================================================
