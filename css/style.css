@@ -764,6 +764,7 @@ body::before {
 }
 
 .footer-label {
+    display: inline-block;
     font-family: var(--font-body);
     font-size: var(--type-label);
     font-weight: 600;
@@ -771,7 +772,10 @@ body::before {
     text-transform: uppercase;
     color: var(--on-surface);
     margin-bottom: var(--space-4);
+    transition: color var(--dur-sm) var(--ease-cinema);
 }
+
+a.footer-label:hover { color: var(--accent); }
 
 .footer-links li { padding: 0; }
 
