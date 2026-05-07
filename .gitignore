@@ -16,3 +16,10 @@ npm-debug.log*
 
 # Local Claude Code state
 .claude/
+
+# Stray images at project root (assets must live under assets/images/)
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
