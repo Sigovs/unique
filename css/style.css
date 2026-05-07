@@ -534,14 +534,14 @@ body::before {
     padding: 0 var(--gutter);
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-8);
+    gap: var(--space-7);
+    align-items: start;
 }
 
 @media (min-width: 900px) {
     .about-inner {
-        grid-template-columns: 5fr 7fr;
-        gap: var(--space-9);
-        align-items: start;
+        grid-template-columns: 533fr 755fr;   /* matches Figma 533/755 */
+        gap: var(--space-7);
     }
 }
 
@@ -553,144 +553,163 @@ body::before {
     font-size: var(--type-display-md);
     line-height: var(--leading-snug);
     color: var(--on-surface);
-    margin-bottom: var(--space-7);
+    margin-bottom: var(--space-6);
 }
 
 .about-actions {
     display: flex;
     gap: var(--space-4);
     flex-wrap: wrap;
+    margin-bottom: var(--space-7);
 }
 
 .about-body {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-5);
+    gap: var(--space-4);
     color: var(--on-surface-muted);
-    font-size: var(--type-body-lg);
+    font-size: var(--type-body);
     line-height: var(--leading-relaxed);
-    max-width: 56ch;
 }
 
 .about-figure {
-    position: relative;
-    z-index: 1;
-    max-width: var(--container);
-    margin: var(--space-9) auto 0;
-    padding: 0 var(--gutter);
+    margin: 0;
 }
 
 .about-figure img {
     width: 100%;
-    height: auto;
-    aspect-ratio: 1320 / 394;
+    aspect-ratio: 755 / 396;          /* matches Figma right column */
     object-fit: cover;
     border-radius: 10px;
     display: block;
 }
 
 /* =========================================================
-   5. RECENTLY SOLD — horizontal carousel (kept from prior)
+   5. RECENTLY SOLD — static 4-card grid with Sold tags
    ========================================================= */
 .sold {
-    padding: var(--space-10) 0 var(--space-9);
-    border-top: 1px solid var(--line);
+    padding: var(--space-9) 0 var(--space-9);
 }
 
-.sold-head {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--space-6);
-}
-
-.sold-controls {
-    display: flex;
-    gap: var(--space-3);
-    flex-shrink: 0;
-}
-
-.sold-arrow {
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    color: var(--on-surface);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: border-color var(--dur-sm) var(--ease-cinema),
-                color var(--dur-sm) var(--ease-cinema);
-}
-.sold-arrow:hover { border-color: var(--accent); color: var(--accent); }
-.sold-arrow:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-    border-color: var(--line);
-    color: var(--on-surface-muted);
-}
-
-.sold-track {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x proximity;
-    scroll-behavior: smooth;
-    padding: 0 var(--gutter) var(--space-5);
-    cursor: grab;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-.sold-track::-webkit-scrollbar { display: none; }
-.sold-track.is-dragging { cursor: grabbing; scroll-behavior: auto; }
-
-.sold-rail {
-    display: flex;
-    gap: var(--space-6);
-    padding-right: var(--gutter);
+.sold-grid {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
 }
 
 .sold-card {
-    flex: 0 0 auto;
-    width: clamp(16rem, 26vw, 22rem);
-    scroll-snap-align: start;
+    will-change: transform;
 }
 
+.sold-link { display: block; }
+
 .sold-media {
-    aspect-ratio: 4 / 3;
+    position: relative;
+    aspect-ratio: 308 / 206;
     overflow: hidden;
+    border-radius: 5px;
     background: var(--surface-2);
     margin-bottom: var(--space-4);
-    border-radius: 5px;
 }
+
 .sold-media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 1400ms var(--ease-quiet);
+    will-change: transform;
 }
 .sold-card:hover .sold-media img { transform: scale(1.04); }
 
-.sold-year {
-    font-size: 0.75rem;
+.sold-tag {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: var(--accent-red);
+    color: var(--on-surface);
+    font-size: 0.6875rem;
+    font-weight: 500;
     letter-spacing: var(--tracking-uppercase);
     text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: var(--space-2);
+    padding: 0.25rem 0.625rem;
+    border-radius: 2px;
+    line-height: 1.3;
 }
 
 .sold-name {
+    font-family: var(--font-body);
     font-weight: 500;
-    font-size: 1.125rem;
-    margin-bottom: var(--space-1);
+    font-size: var(--type-small);
+    color: var(--on-surface);
+    text-align: center;
 }
 
-.sold-spec {
-    font-size: var(--type-small);
-    color: var(--on-surface-muted);
+@media (max-width: 900px) {
+    .sold-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
+}
+@media (max-width: 480px) {
+    .sold-grid { grid-template-columns: 1fr; }
 }
 
 /* =========================================================
-   6. FOOTER — 5-col layout per Figma
+   6. INSTAGRAM — centered horizontal tile band
+   ========================================================= */
+.ig {
+    padding: var(--space-9) 0 var(--space-9);
+    border-top: 1px solid var(--line);
+}
+
+.ig-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: center;
+    padding: 0 var(--gutter);
+    margin-bottom: var(--space-7);
+}
+
+.ig-icon {
+    color: var(--on-surface);
+}
+
+.ig-head .eyebrow { margin-bottom: 0; }
+
+.ig-grid {
+    max-width: 68.5rem;          /* 1096px Figma */
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-3);
+}
+
+.ig-tile {
+    aspect-ratio: 205 / 128;
+    background: var(--surface-2);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform var(--dur-md) var(--ease-cinema),
+                background-color var(--dur-md) var(--ease-cinema);
+    will-change: transform;
+}
+.ig-tile:hover {
+    transform: translateY(-2px);
+    background-color: #2e2e2e;
+}
+
+@media (max-width: 900px) {
+    .ig-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+}
+@media (max-width: 560px) {
+    .ig-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* =========================================================
+   7. FOOTER — 5-col layout per Figma
    ========================================================= */
 .footer {
     background: var(--surface-footer);

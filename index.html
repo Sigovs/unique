@@ -154,76 +154,95 @@
                         </a>
                         <a class="btn btn--ghost" href="#contact" data-magnetic>Contact us</a>
                     </div>
+                    <div class="about-body">
+                        <p data-reveal>
+                            Unique Motors is a private sourcing partner and curated dealership
+                            for collectors, enthusiasts, and quiet connoisseurs. Each vehicle
+                            is chosen for its history, its honesty, and the way it drives —
+                            not its margin.
+                        </p>
+                        <p data-reveal>
+                            We work slowly, deliberately, and with a small client list. Most of what
+                            passes through the showroom never makes it to a public listing.
+                        </p>
+                    </div>
                 </div>
-                <div class="about-body">
-                    <p data-reveal>
-                        Unique Motors is a private sourcing partner and curated dealership
-                        for collectors, enthusiasts, and quiet connoisseurs. Each vehicle
-                        is chosen for its history, its honesty, and the way it drives —
-                        not its margin.
-                    </p>
-                    <p data-reveal>
-                        We work slowly, deliberately, and with a small client list. Most of what
-                        passes through the showroom never makes it to a public listing.
-                    </p>
-                </div>
-            </div>
 
-            <figure class="about-figure" data-reveal>
-                <img src="assets/images/About%20Unique%20Motors.png" alt="The Unique Motors showroom" />
-            </figure>
+                <figure class="about-figure" data-reveal>
+                    <img src="assets/images/About%20Unique%20Motors.png" alt="The Unique Motors showroom" />
+                </figure>
+            </div>
         </section>
 
         <!-- ============================================
-             5. RECENTLY SOLD — horizontal carousel
+             5. RECENTLY SOLD — static 4-card grid with Sold tags
              ============================================ -->
         <section id="sold" class="sold">
-            <div class="section-head sold-head">
-                <div>
-                    <p class="eyebrow" data-reveal>Recently Sold</p>
-                    <h2 class="section-title" data-reveal>From our archives.</h2>
-                </div>
-                <div class="sold-controls">
-                    <button class="sold-arrow" data-sold-prev aria-label="Previous">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
-                            <path d="M15 5l-7 7 7 7" />
-                        </svg>
-                    </button>
-                    <button class="sold-arrow" data-sold-next aria-label="Next">
-                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
-                            <path d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
-                </div>
+            <div class="section-head">
+                <p class="eyebrow" data-reveal>Recently Sold</p>
+                <h2 class="section-title" data-reveal>From our archives.</h2>
             </div>
 
-            <div class="sold-track" data-sold-track>
-                <div class="sold-rail" data-sold-rail>
-                    <article class="sold-card">
-                        <div class="sold-media"><img src="assets/images/sold1.jpg" alt="" /></div>
-                        <p class="sold-year">1971</p>
-                        <h3 class="sold-name">BMW 2002 tii</h3>
-                        <p class="sold-spec">Inka Orange · Restored</p>
-                    </article>
-                    <article class="sold-card">
-                        <div class="sold-media"><img src="assets/images/sold2.jpg" alt="" /></div>
-                        <p class="sold-year">1985</p>
-                        <h3 class="sold-name">Lancia Delta HF Integrale</h3>
-                        <p class="sold-spec">Evoluzione · Group A heritage</p>
-                    </article>
-                    <article class="sold-card">
-                        <div class="sold-media"><img src="assets/images/sold3.jpg" alt="" /></div>
-                        <p class="sold-year">1969</p>
-                        <h3 class="sold-name">Jaguar E-Type Series 2</h3>
-                        <p class="sold-spec">Roadster · Carmen Red</p>
-                    </article>
-                    <article class="sold-card">
-                        <div class="sold-media"><img src="assets/images/sold4.jpg" alt="" /></div>
-                        <p class="sold-year">1992</p>
-                        <h3 class="sold-name">Acura NSX</h3>
-                        <p class="sold-spec">Berlina Black · 5-Speed</p>
-                    </article>
-                </div>
+            <div class="sold-grid">
+                <article class="sold-card" data-card>
+                    <a class="sold-link" href="#">
+                        <div class="sold-media">
+                            <img src="assets/images/sold1.jpg" alt="2010 Porsche 911 Carrera 4S" />
+                            <span class="sold-tag">Sold</span>
+                        </div>
+                        <h3 class="sold-name">2010 Porsche 911 Carrera 4S</h3>
+                    </a>
+                </article>
+                <article class="sold-card" data-card>
+                    <a class="sold-link" href="#">
+                        <div class="sold-media">
+                            <img src="assets/images/sold2.jpg" alt="2020 Mercedes-Benz S-Class AMG S 63" />
+                            <span class="sold-tag">Sold</span>
+                        </div>
+                        <h3 class="sold-name">2020 Mercedes-Benz S-Class AMG S 63</h3>
+                    </a>
+                </article>
+                <article class="sold-card" data-card>
+                    <a class="sold-link" href="#">
+                        <div class="sold-media">
+                            <img src="assets/images/sold3.jpg" alt="2008 Lamborghini Murcielago LP 640" />
+                            <span class="sold-tag">Sold</span>
+                        </div>
+                        <h3 class="sold-name">2008 Lamborghini Murcielago LP 640</h3>
+                    </a>
+                </article>
+                <article class="sold-card" data-card>
+                    <a class="sold-link" href="#">
+                        <div class="sold-media">
+                            <img src="assets/images/sold4.jpg" alt="2024 Porsche 911 Targa 4 GTS" />
+                            <span class="sold-tag">Sold</span>
+                        </div>
+                        <h3 class="sold-name">2024 Porsche 911 Targa 4 GTS</h3>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- ============================================
+             6. INSTAGRAM — centered horizontal tile band
+             ============================================ -->
+        <section class="ig">
+            <div class="ig-head">
+                <svg class="ig-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+                </svg>
+                <p class="eyebrow" data-reveal>@uniquemotors</p>
+                <h2 class="section-title" data-reveal>Follow our latest arrivals.</h2>
+            </div>
+
+            <div class="ig-grid">
+                <a class="ig-tile" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram tile" data-reveal></a>
+                <a class="ig-tile" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram tile" data-reveal></a>
+                <a class="ig-tile" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram tile" data-reveal></a>
+                <a class="ig-tile" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram tile" data-reveal></a>
+                <a class="ig-tile" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram tile" data-reveal></a>
             </div>
         </section>
 

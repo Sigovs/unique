@@ -172,121 +172,27 @@
     };
 
     /* -----------------------------------------------------
-     * 7. Inventory cards — staggered reveal
+     * 7. Card reveals (inventory + sold) — staggered per
+     *    section using ScrollTrigger.batch so each row of
+     *    cards animates only when its own section enters.
      * --------------------------------------------------- */
     const initCards = () => {
-        const cards = gsap.utils.toArray("[data-card]");
-        if (!cards.length) return;
+        if (!document.querySelector("[data-card]")) return;
 
-        gsap.fromTo(
-            cards,
-            { y: 56, opacity: 0 },
-            {
-                y: 0,
-                opacity: 1,
-                duration: 1.3,
-                ease: "expo.out",
-                stagger: 0.12,
-                scrollTrigger: {
-                    trigger: cards[0],
-                    start: "top 85%",
-                    toggleActions: "play none none none",
-                },
-            }
-        );
-    };
+        gsap.set("[data-card]", { y: 56, opacity: 0 });
 
-    /* -----------------------------------------------------
-     * 8. Sold carousel — arrows + drag-to-scroll
-     * --------------------------------------------------- */
-    const initSoldCarousel = () => {
-        const track = document.querySelector("[data-sold-track]");
-        const rail = document.querySelector("[data-sold-rail]");
-        const prev = document.querySelector("[data-sold-prev]");
-        const next = document.querySelector("[data-sold-next]");
-        if (!track || !rail) return;
-
-        const stepDistance = () => {
-            const card = rail.querySelector(".sold-card");
-            if (!card) return track.clientWidth * 0.8;
-            const style = getComputedStyle(rail);
-            const gap = parseFloat(style.columnGap || style.gap || "0") || 0;
-            return card.getBoundingClientRect().width + gap;
-        };
-
-        const updateButtons = () => {
-            if (!prev || !next) return;
-            const max = track.scrollWidth - track.clientWidth - 1;
-            prev.disabled = track.scrollLeft <= 0;
-            next.disabled = track.scrollLeft >= max;
-        };
-
-        prev?.addEventListener("click", () => {
-            track.scrollBy({ left: -stepDistance(), behavior: "smooth" });
+        ScrollTrigger.batch("[data-card]", {
+            start: "top 88%",
+            onEnter: (batch) =>
+                gsap.to(batch, {
+                    y: 0,
+                    opacity: 1,
+                    duration: 1.3,
+                    ease: "expo.out",
+                    stagger: 0.1,
+                    overwrite: true,
+                }),
         });
-        next?.addEventListener("click", () => {
-            track.scrollBy({ left: stepDistance(), behavior: "smooth" });
-        });
-
-        track.addEventListener("scroll", updateButtons, { passive: true });
-        window.addEventListener("resize", updateButtons);
-        updateButtons();
-
-        // Drag-to-scroll (mouse). Touch uses native horizontal scroll.
-        let isDown = false;
-        let startX = 0;
-        let startLeft = 0;
-        let moved = 0;
-
-        track.addEventListener("mousedown", (e) => {
-            isDown = true;
-            moved = 0;
-            startX = e.pageX;
-            startLeft = track.scrollLeft;
-            track.classList.add("is-dragging");
-        });
-
-        const release = () => {
-            if (!isDown) return;
-            isDown = false;
-            track.classList.remove("is-dragging");
-        };
-        window.addEventListener("mouseup", release);
-        track.addEventListener("mouseleave", release);
-
-        track.addEventListener("mousemove", (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const dx = e.pageX - startX;
-            moved = Math.abs(dx);
-            track.scrollLeft = startLeft - dx;
-        });
-
-        // Suppress click after a meaningful drag.
-        track.addEventListener("click", (e) => {
-            if (moved > 6) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }, true);
-
-        // Sold rail entrance
-        gsap.fromTo(
-            rail.querySelectorAll(".sold-card"),
-            { x: 60, opacity: 0 },
-            {
-                x: 0,
-                opacity: 1,
-                duration: 1.2,
-                ease: "expo.out",
-                stagger: 0.08,
-                scrollTrigger: {
-                    trigger: track,
-                    start: "top 85%",
-                    toggleActions: "play none none none",
-                },
-            }
-        );
     };
 
     /* -----------------------------------------------------
@@ -323,7 +229,7 @@
     const start = () => {
         if (reduceMotion) {
             // Make everything visible without motion.
-            gsap.set("[data-hero-line], [data-reveal], [data-card], .sold-card",
+            gsap.set("[data-hero-line], [data-reveal], [data-card]",
                 { clearProps: "all" });
             return;
         }
@@ -335,7 +241,6 @@
         initAboutSplit();
         initAboutParallax();
         initCards();
-        initSoldCarousel();
         initMagnetic();
 
         // Refresh after fonts/images settle so triggers measure correctly.
