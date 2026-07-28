@@ -1,255 +1,175 @@
 /**
- * UNIQUE MOTORS — homepage interactions
+ * Unique Motor Collection — home page interactions
  *
- * GSAP + ScrollTrigger drive:
- *   - Hero text reveal on load (mask + rise)
- *   - Hero image parallax (yPercent on scroll)
- *   - Sticky header shrink + frosted blur
- *   - Section / card reveals on scroll
- *   - About headline word-stagger reveal
- *   - About background parallax
- *   - Sold horizontal carousel: arrows, drag-to-scroll, button states
+ * Vanilla, no dependencies. Mirrors the live site's behaviour:
+ *   - Hero: 2-slide autoplay carousel, 5s interval, numbered dots (01. / 02.)
+ *   - About: entrance reveal when the card scrolls into view
+ *   - Instagram: continuous tile carousel with prev/next arrows
+ *   - Mobile: burger menu toggle
  */
+(function () {
+    'use strict';
 
-(() => {
-    "use strict";
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    /* ----------------------------------------------------------------------
+       Hero slider
+       ---------------------------------------------------------------------- */
+    (function heroSlider() {
+        var hero = document.querySelector('[data-hero]');
+        if (!hero) return;
 
-    if (typeof gsap === "undefined") {
-        console.warn("GSAP failed to load; falling back to static page.");
-        return;
-    }
-    gsap.registerPlugin(ScrollTrigger);
+        var slides = Array.prototype.slice.call(hero.querySelectorAll('[data-hero-slide]'));
+        var dots = Array.prototype.slice.call(hero.querySelectorAll('[data-hero-dot]'));
+        if (slides.length < 2) return;
 
-    // Slow, cinematic defaults
-    gsap.defaults({ ease: "power3.out", duration: 1.2 });
+        var index = 0;
+        var timer = null;
+        var INTERVAL = 5000;
 
-    /* -----------------------------------------------------
-     * 1. Hero — mask reveal of text + scrollcue
-     * --------------------------------------------------- */
-    const initHero = () => {
-        const lines = gsap.utils.toArray("[data-hero-line]");
-        if (!lines.length) return;
-
-        gsap.set(lines, { yPercent: 110, opacity: 0 });
-
-        gsap.to(lines, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 1.4,
-            ease: "expo.out",
-            stagger: 0.12,
-            delay: 0.15,
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 2. Hero image parallax — scroll-bound
-     * --------------------------------------------------- */
-    const initHeroParallax = () => {
-        const heroImg = document.querySelector("[data-hero-img]");
-        const hero = document.querySelector("[data-hero]");
-        if (!heroImg || !hero) return;
-
-        gsap.to(heroImg, {
-            yPercent: 18,
-            ease: "none",
-            scrollTrigger: {
-                trigger: hero,
-                start: "top top",
-                end: "bottom top",
-                scrub: true,
-            },
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 3. Sticky header — compact + frosted on scroll
-     * --------------------------------------------------- */
-    const initHeader = () => {
-        const header = document.querySelector("[data-header]");
-        if (!header) return;
-
-        ScrollTrigger.create({
-            start: "top -40",
-            end: 99999,
-            onUpdate: (self) => {
-                header.classList.toggle("is-scrolled", self.scroll() > 40);
-            },
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 4. Generic reveal — fade + rise on scroll
-     * --------------------------------------------------- */
-    const initReveals = () => {
-        const items = gsap.utils.toArray("[data-reveal]");
-        items.forEach((el) => {
-            gsap.fromTo(
-                el,
-                { y: 36, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1.3,
-                    ease: "expo.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 88%",
-                        toggleActions: "play none none none",
-                    },
-                }
-            );
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 5. About headline — word-by-word reveal
-     * --------------------------------------------------- */
-    const initAboutSplit = () => {
-        const target = document.querySelector("[data-reveal-split]");
-        if (!target) return;
-
-        // Walk text nodes and wrap each word in a <span>.
-        const words = [];
-        const walk = (node) => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                const frag = document.createDocumentFragment();
-                node.textContent.split(/(\s+)/).forEach((part) => {
-                    if (/^\s+$/.test(part)) {
-                        frag.appendChild(document.createTextNode(part));
-                    } else if (part.length) {
-                        const wrap = document.createElement("span");
-                        wrap.className = "word";
-                        wrap.style.display = "inline-block";
-                        wrap.style.willChange = "transform, opacity";
-                        wrap.textContent = part;
-                        frag.appendChild(wrap);
-                        words.push(wrap);
-                    }
-                });
-                node.parentNode.replaceChild(frag, node);
-            } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== "BR") {
-                Array.from(node.childNodes).forEach(walk);
-            }
-        };
-        Array.from(target.childNodes).forEach(walk);
-
-        gsap.set(words, { yPercent: 100, opacity: 0 });
-        gsap.to(words, {
-            yPercent: 0,
-            opacity: 1,
-            duration: 1.1,
-            ease: "expo.out",
-            stagger: 0.04,
-            scrollTrigger: {
-                trigger: target,
-                start: "top 80%",
-                toggleActions: "play none none none",
-            },
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 6. About background — slow parallax drift
-     * --------------------------------------------------- */
-    const initAboutParallax = () => {
-        const bg = document.querySelector("[data-about-bg]");
-        const section = document.querySelector("[data-about]");
-        if (!bg || !section) return;
-
-        gsap.to(bg, {
-            yPercent: -12,
-            ease: "none",
-            scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
-            },
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 7. Card reveals (inventory + sold) — staggered per
-     *    section using ScrollTrigger.batch so each row of
-     *    cards animates only when its own section enters.
-     * --------------------------------------------------- */
-    const initCards = () => {
-        if (!document.querySelector("[data-card]")) return;
-
-        gsap.set("[data-card]", { y: 56, opacity: 0 });
-
-        ScrollTrigger.batch("[data-card]", {
-            start: "top 88%",
-            onEnter: (batch) =>
-                gsap.to(batch, {
-                    y: 0,
-                    opacity: 1,
-                    duration: 1.3,
-                    ease: "expo.out",
-                    stagger: 0.1,
-                    overwrite: true,
-                }),
-        });
-    };
-
-    /* -----------------------------------------------------
-     * 9. Magnetic buttons — taste-skill MOTION_INTENSITY > 5
-     *    Cursor-pull via gsap.quickTo (off the React/render
-     *    cycle equivalent — direct GSAP transform).
-     *    Skipped on touch devices to prevent stuck offsets.
-     * --------------------------------------------------- */
-    const initMagnetic = () => {
-        const isTouch = window.matchMedia("(hover: none)").matches;
-        if (isTouch) return;
-
-        const targets = document.querySelectorAll("[data-magnetic]");
-        targets.forEach((el) => {
-            const xTo = gsap.quickTo(el, "x", { duration: 0.55, ease: "power3.out" });
-            const yTo = gsap.quickTo(el, "y", { duration: 0.55, ease: "power3.out" });
-            const strength = 0.28;
-
-            el.addEventListener("mousemove", (e) => {
-                const r = el.getBoundingClientRect();
-                xTo((e.clientX - r.left - r.width / 2) * strength);
-                yTo((e.clientY - r.top - r.height / 2) * strength);
+        function show(next) {
+            index = (next + slides.length) % slides.length;
+            slides.forEach(function (slide, i) {
+                slide.classList.toggle('is-active', i === index);
             });
-            el.addEventListener("mouseleave", () => {
-                xTo(0);
-                yTo(0);
+            dots.forEach(function (dot, i) {
+                var active = i === index;
+                dot.classList.toggle('is-active', active);
+                dot.setAttribute('aria-selected', active ? 'true' : 'false');
             });
-        });
-    };
+        }
 
-    /* -----------------------------------------------------
-     * Boot
-     * --------------------------------------------------- */
-    const start = () => {
-        if (reduceMotion) {
-            // Make everything visible without motion.
-            gsap.set("[data-hero-line], [data-reveal], [data-card]",
-                { clearProps: "all" });
+        function start() {
+            if (reduceMotion) return;
+            stop();
+            timer = window.setInterval(function () { show(index + 1); }, INTERVAL);
+        }
+
+        function stop() {
+            if (timer) { window.clearInterval(timer); timer = null; }
+        }
+
+        dots.forEach(function (dot, i) {
+            dot.addEventListener('click', function () { show(i); start(); });
+        });
+
+        hero.addEventListener('mouseenter', stop);
+        hero.addEventListener('mouseleave', start);
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) { stop(); } else { start(); }
+        });
+
+        show(0);
+        start();
+    }());
+
+    /* ----------------------------------------------------------------------
+       Scroll reveal (About card)
+       ---------------------------------------------------------------------- */
+    (function reveal() {
+        var targets = Array.prototype.slice.call(document.querySelectorAll('[data-anim]'));
+        if (!targets.length) return;
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            targets.forEach(function (el) { el.classList.add('is-visible'); });
             return;
         }
 
-        initHero();
-        initHeroParallax();
-        initHeader();
-        initReveals();
-        initAboutSplit();
-        initAboutParallax();
-        initCards();
-        initMagnetic();
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+            });
+        }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
 
-        // Refresh after fonts/images settle so triggers measure correctly.
-        window.addEventListener("load", () => ScrollTrigger.refresh());
-    };
+        targets.forEach(function (el) { io.observe(el); });
+    }());
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", start);
-    } else {
+    /* ----------------------------------------------------------------------
+       Instagram gallery
+       ---------------------------------------------------------------------- */
+    (function gallery() {
+        var root = document.querySelector('[data-gallery]');
+        if (!root) return;
+
+        var track = root.querySelector('[data-gallery-track]');
+        var viewport = root.querySelector('.ig__viewport');
+        var prev = root.querySelector('[data-gallery-prev]');
+        var next = root.querySelector('[data-gallery-next]');
+        var slides = Array.prototype.slice.call(track.children);
+        if (!slides.length) return;
+
+        var index = 0;
+        var timer = null;
+        var INTERVAL = 6000;   // matches the live Swiper autoplay delay
+
+        function step() {
+            var first = slides[0];
+            var gap = parseFloat(getComputedStyle(track).gap) || 0;
+            return first.getBoundingClientRect().width + gap;
+        }
+
+        function maxIndex() {
+            var perView = Math.max(1, Math.round(viewport.clientWidth / step()));
+            return Math.max(0, slides.length - perView);
+        }
+
+        function go(next_) {
+            var limit = maxIndex();
+            if (next_ > limit) next_ = 0;
+            if (next_ < 0) next_ = limit;
+            index = next_;
+            track.style.transform = 'translate3d(' + (-index * step()) + 'px, 0, 0)';
+        }
+
+        function start() {
+            if (reduceMotion) return;
+            stop();
+            timer = window.setInterval(function () { go(index + 1); }, INTERVAL);
+        }
+
+        function stop() {
+            if (timer) { window.clearInterval(timer); timer = null; }
+        }
+
+        if (prev) prev.addEventListener('click', function () { go(index - 1); start(); });
+        if (next) next.addEventListener('click', function () { go(index + 1); start(); });
+
+        root.addEventListener('mouseenter', stop);
+        root.addEventListener('mouseleave', start);
+
+        var resizeTimer;
+        window.addEventListener('resize', function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () { go(index); }, 150);
+        });
+
+        go(0);
         start();
-    }
-})();
+    }());
+
+    /* ----------------------------------------------------------------------
+       Mobile menu
+       ---------------------------------------------------------------------- */
+    (function burger() {
+        var btn = document.querySelector('[data-burger]');
+        var menu = document.querySelector('[data-mobile-menu]');
+        if (!btn || !menu) return;
+
+        btn.addEventListener('click', function () {
+            var open = btn.getAttribute('aria-expanded') === 'true';
+            btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+            menu.hidden = open;
+        });
+
+        menu.addEventListener('click', function (e) {
+            if (e.target.closest('a')) {
+                btn.setAttribute('aria-expanded', 'false');
+                menu.hidden = true;
+            }
+        });
+    }());
+
+}());

@@ -27,3 +27,8 @@ npm-debug.log*
 # Design reference exports — kept locally, not in repo
 assets/images/refference*
 assets/images/reference*
+
+# Shoot originals / source material — kept locally, not in repo
+*.HEIC
+*.heic
+/NEW SLIDES/

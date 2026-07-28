@@ -1,898 +1,735 @@
-/* =========================================================
-   UNIQUE MOTORS — aligned to Figma (DyleWRCHhumB9pWd49ljxG)
-   Tokens, type scale, spacing scale (M3 *thinking*).
-   Visual direction: dark editorial luxury automotive.
-   ========================================================= */
+/* ==========================================================================
+   Unique Motor Collection — home page
+   Static HTML/CSS rebuild of uniquemotorcollection.com (1:1)
+   All values measured from the live site at a 1440px viewport.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Tokens
+   -------------------------------------------------------------------------- */
 :root {
-    /* Surface — per Figma (#181818 base, #262626 cards, #131a20 footer) */
-    --surface:           #181818;
-    --surface-2:         #262626;   /* card bg */
-    --surface-3:         #2b2a2a;   /* radial highlight */
-    --surface-footer:    #131a20;
-    --surface-glass:     rgba(24, 24, 24, 0.6);
-    --on-surface:        #ffffff;
-    --on-surface-soft:   #c0c0c0;   /* card spec text */
-    --on-surface-muted:  #a7a7a7;   /* eyebrow / body */
-    --on-surface-faint:  #737373;   /* legal */
-    --line:              rgba(255, 255, 255, 0.08);
-    --line-strong:       rgba(255, 255, 255, 0.16);
-    --line-footer:       #232e36;
+    /* surfaces */
+    --bg:              #202020;
+    --bg-sold:         #141414;
+    --bg-ig:           #0e0f10;
+    --surface-card:    #262626;
+    --surface-tile:    #1a1b1d;
+    --surface-btn:     #303030;
+    --scrim:           rgba(0, 0, 0, .7);
+    --footer-core:     #101214;   /* footer radial-gradient centre */
+    --footer-edge:     #0a0b0c;   /* footer radial-gradient edge   */
 
-    /* Accent — teal primary, red secondary (per Figma) */
-    --accent:            #127d8a;   /* teal — primary CTA */
-    --accent-hover:      #0e6c77;
-    --accent-red:        #994141;   /* phone / View All */
-    --accent-red-hover:  #803535;
-    --accent-dark:       #2e4950;   /* Call for Consultation */
+    /* brand */
+    --gold:            #fac229;
+    --gold-deep:       #c2961d;   /* active nav item */
+    --gold-hot:        #ffa600;   /* active hero dot */
+    --red:             #c72222;
 
-    /* Type families */
-    --font-display: "Playfair Display", "Times New Roman", serif;
-    --font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    /* text */
+    --txt:             #fff;
+    --txt-muted:       #a1a1a1;
+    --txt-dim:         #a3a3a3;
+    --txt-grey:        #808080;
+    --txt-faint:       #737373;
+    --txt-label:       #4a4a4a;
+    --txt-link:        #414141;
 
-    /* Type scale — Figma values */
-    --type-hero:        clamp(2.5rem, 6.5vw, 3.75rem);  /* 60px in Figma */
-    --type-display-lg:  clamp(2rem,   4vw, 3rem);
-    --type-display-md:  clamp(1.5rem, 2.4vw, 1.875rem); /* 30px section H2 */
-    --type-headline:    1.25rem;                         /* 20px card name */
-    --type-body-lg:     1rem;                            /* 16px about body */
-    --type-body:        0.9375rem;                       /* 15px eyebrow */
-    --type-small:       0.875rem;                        /* 14px sub / btn */
-    --type-label:       0.8125rem;                       /* 13px footer label */
+    /* lines */
+    --line:            #282828;
+    --line-soft:       #181818;
 
-    --leading-tight:    1.05;
-    --leading-snug:     1.33;        /* 40/30 */
-    --leading-normal:   1.625;       /* 26/16 about */
-    --leading-relaxed:  1.875;       /* 30/16 hero sub */
+    /* type */
+    --f-display:       "Jost", -apple-system, BlinkMacSystemFont, sans-serif;
+    --f-text:          "Roboto", -apple-system, BlinkMacSystemFont, sans-serif;
 
-    --tracking-display: 0;
-    --tracking-body:    0;
-    --tracking-label:   0.02em;
-    --tracking-uppercase: 0.05em;
-    --tracking-button:  0.02em;
-
-    /* Spacing scale — 4px base */
-    --space-1:  0.25rem;
-    --space-2:  0.5rem;
-    --space-3:  0.75rem;
-    --space-4:  1rem;
-    --space-5:  1.5rem;
-    --space-6:  2rem;
-    --space-7:  3rem;
-    --space-8:  4rem;
-    --space-9:  6rem;
-    --space-10: 8rem;
-    --space-11: 12rem;
-
-    /* Layout — Figma uses 1320px content / 300px gutter on 1920 */
-    --container:        82.5rem;       /* 1320px */
-    --gutter:           clamp(1.25rem, 5vw, 6rem);
-
-    /* Header heights */
-    --header-h:         5rem;
-    --header-h-compact: 4rem;
-
-    /* Motion */
-    --ease-cinema: cubic-bezier(0.22, 0.61, 0.36, 1);
-    --ease-quiet:  cubic-bezier(0.16, 1, 0.3, 1);
-    --ease-soft:   cubic-bezier(0.4, 0, 0.2, 1);
-    --dur-xs:  300ms;
-    --dur-sm:  600ms;
-    --dur-md:  900ms;
-    --dur-lg:  1200ms;
-
-    --z-header: 50;
+    /* metrics */
+    --shell:           1352px;   /* 1320px content + 2 x 16px gutter */
+    --gutter:          16px;
+    --header-h:        126px;
 }
 
-/* =========================================================
-   Reset
-   ========================================================= */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* --------------------------------------------------------------------------
+   2. Reset
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
 
-html {
-    background: var(--surface);
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-}
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: var(--type-body);
-    line-height: var(--leading-normal);
-    color: var(--on-surface);
-    background: var(--surface);
+    margin: 0;
+    background: var(--bg);
+    color: var(--txt);
+    font-family: var(--f-text);
+    font-size: 14px;
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
 }
 
-img, svg { display: block; max-width: 100%; }
-a  { color: inherit; text-decoration: none; }
-ul { list-style: none; }
-button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+h1, h2, h3, p, ul, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+img, picture, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 
-:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; }
-::selection    { background: rgba(18, 125, 138, 0.32); color: var(--on-surface); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
-/* Subtle grain — fixed pseudo, off the scroll layer */
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.04;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    background-size: 220px 220px;
+.shell {
+    width: 100%;
+    max-width: var(--shell);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
 }
 
-/* =========================================================
-   Editorial primitives
-   ========================================================= */
-.eyebrow {
-    font-family: var(--font-body);
-    font-size: var(--type-body);
-    font-weight: 400;
-    letter-spacing: var(--tracking-uppercase);
-    text-transform: uppercase;
-    color: var(--on-surface-muted);
-    margin-bottom: var(--space-3);
-}
-
-.section-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: var(--type-display-md);
-    line-height: var(--leading-snug);
-    color: var(--on-surface);
-}
-
-.section-head {
-    max-width: var(--container);
-    margin: 0 auto var(--space-8);
-    padding: 0 var(--gutter);
-}
-
-/* Buttons — rounded 3px, padded 16/30, per Figma */
+/* --------------------------------------------------------------------------
+   3. Buttons
+   -------------------------------------------------------------------------- */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-3);
-    padding: 1rem 1.875rem;
-    font-family: var(--font-body);
-    font-size: var(--type-small);
-    font-weight: 500;
-    letter-spacing: var(--tracking-button);
-    line-height: 1.875;
-    border: 1px solid transparent;
+    padding: 16px 40px;
     border-radius: 3px;
-    color: var(--on-surface);
-    transition: background-color var(--dur-sm) var(--ease-cinema),
-                border-color var(--dur-sm) var(--ease-cinema),
-                color var(--dur-sm) var(--ease-cinema);
+    font: 500 14px/30px var(--f-text);
+    color: var(--txt);
+    white-space: nowrap;
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
 }
 
-.btn--sm {
-    padding: 0.625rem 1.125rem;
-    font-size: 0.8125rem;
-}
+.btn--solid        { background: var(--surface-btn); border: 1px solid var(--surface-btn); }
+.btn--solid:hover  { background: var(--gold); border-color: var(--gold); color: #000; }
 
-.btn--primary {
-    background: var(--accent);
-    color: var(--on-surface);
-}
-.btn--primary:hover { background: var(--accent-hover); }
+.btn--outline       { background: transparent; border: 1px solid var(--txt); }
+.btn--outline:hover { background: var(--txt); color: #000; }
 
-.btn--accent {
-    background: var(--accent-red);
-    color: var(--on-surface);
-}
-.btn--accent:hover { background: var(--accent-red-hover); }
-
-.btn--secondary {
-    background: var(--accent-dark);
-    color: var(--on-surface);
-}
-.btn--secondary:hover { background: #233a40; }
-
-.btn--ghost {
-    border-color: var(--on-surface);
-    color: var(--on-surface);
-    background: transparent;
-}
-.btn--ghost:hover {
-    background: var(--on-surface);
-    color: var(--surface);
-}
-
-/* =========================================================
-   1. HEADER
-   ========================================================= */
+/* --------------------------------------------------------------------------
+   4. Header
+   -------------------------------------------------------------------------- */
 .header {
     position: fixed;
-    inset: 0 0 auto 0;
-    z-index: var(--z-header);
-    height: var(--header-h);
-    transition:
-        height var(--dur-md) var(--ease-cinema),
-        background-color var(--dur-md) var(--ease-cinema),
-        backdrop-filter var(--dur-md) var(--ease-cinema),
-        border-color var(--dur-md) var(--ease-cinema);
-    border-bottom: 1px solid transparent;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background: rgba(23, 23, 23, .7);
+    -webkit-backdrop-filter: blur(22.75px);
+    backdrop-filter: blur(22.75px);
 }
 
-.header-inner {
-    max-width: var(--container);
-    height: 100%;
-    margin: 0 auto;
-    padding: 0 var(--gutter);
+.header__wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-6);
+    gap: 57px;
+    height: var(--header-h);
 }
 
-.header-logo {
-    display: inline-flex;
-    align-items: center;
-    color: var(--on-surface);
-    line-height: 0;
-    flex-shrink: 0;
-}
-.header-logo img {
-    height: 1.1rem;
-    width: auto;
-    transition: height var(--dur-md) var(--ease-cinema),
-                opacity var(--dur-sm) var(--ease-cinema);
-}
-.header-logo:hover img { opacity: 0.85; }
+.header__nav { flex: 0 0 auto; }
 
-.header-right {
+.header__menu {
     display: flex;
     align-items: center;
-    gap: var(--space-7);
+    gap: 30px;
 }
 
-.header-nav {
-    display: flex;
-    gap: var(--space-7);
-}
-
-.header-nav a {
-    font-size: var(--type-small);
-    font-weight: 500;
-    letter-spacing: var(--tracking-uppercase);
+.header__menu a {
+    position: relative;
+    display: block;
+    font: 500 16px/30px var(--f-text);
     text-transform: uppercase;
-    color: var(--on-surface);
-    opacity: 0.85;
-    transition: opacity var(--dur-sm) var(--ease-cinema),
-                color var(--dur-sm) var(--ease-cinema);
+    color: var(--txt);
+    transition: color .25s ease;
 }
 
-.header-nav a:hover {
-    opacity: 1;
-    color: var(--accent);
+.header__menu a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--gold-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
 }
 
-.header.is-scrolled {
-    height: var(--header-h-compact);
-    background-color: var(--surface-glass);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-            backdrop-filter: blur(20px) saturate(140%);
-    border-bottom-color: var(--line);
-    box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        0 1px 0 rgba(0, 0, 0, 0.4);
-}
+.header__menu a:hover { color: var(--gold-deep); }
+.header__menu a:hover::after { transform: scaleX(1); }
 
-.header.is-scrolled .header-logo img { height: 0.85rem; }
+.header__menu li.is-active > a { color: var(--gold-deep); }
+.header__menu li.is-active > a::after { transform: scaleX(1); }
 
-/* =========================================================
-   2. HERO — center-aligned per Figma
-   ========================================================= */
+.header__logo { flex: 0 1 auto; text-align: center; padding: 19px 0; }
+.header__logo img { width: 353px; height: 88px; margin-inline: auto; }
+
+.header__phone-m,
+.header__burger,
+.header__mobile { display: none; }
+
+/* --------------------------------------------------------------------------
+   5. Hero
+   -------------------------------------------------------------------------- */
 .hero {
     position: relative;
-    min-height: 100vh;
+    height: 100vh;
+    min-height: 620px;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-9) var(--gutter);
-    isolation: isolate;
-    text-align: center;
+    background: #000;
 }
 
-.hero-media {
-    position: absolute;
-    inset: -10% 0 -10% 0;
-    z-index: -2;
-    background: var(--surface-2);
-}
-
-.hero-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 40%;
-    will-change: transform;
-}
-
-/* Top + bottom fades to surface — per Figma 383px gradient strips */
-.hero-overlay {
+.hero__slide {
     position: absolute;
     inset: 0;
-    z-index: -1;
-    background:
-        linear-gradient(180deg, var(--surface) 0%, transparent 24%, transparent 64%, var(--surface) 100%),
-        rgba(24, 24, 24, 0.18);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .9s ease, visibility .9s ease;
 }
 
-.hero-content {
-    max-width: 56rem;
-    margin: 0 auto;
-}
+.hero__slide.is-active { opacity: 1; visibility: visible; z-index: 2; }
 
-.hero-eyebrow {
-    font-size: var(--type-body);
-    font-weight: 400;
-    letter-spacing: var(--tracking-uppercase);
-    text-transform: uppercase;
-    color: var(--on-surface-muted);
-    margin-bottom: 1.75rem;
-}
-
-.hero-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: var(--type-hero);
-    line-height: 1;
-    color: var(--on-surface);
-}
-
-.hero-title .line {
-    display: block;
-    overflow: hidden;
-}
-.hero-title .line > span {
-    display: inline-block;
-    will-change: transform;
-}
-
-.hero-sub {
-    margin: var(--space-5) auto var(--space-7);   /* tighter gap, matches reference */
-    max-width: 50ch;
-    font-size: var(--type-small);
-    font-weight: 300;
-    color: var(--on-surface);
-    line-height: var(--leading-relaxed);
-}
-
-.hero-actions {
-    display: flex;
-    gap: var(--space-4);
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.hero-scrollcue {
+.hero__media,
+.hero__media img {
     position: absolute;
-    bottom: var(--space-6);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: 0.7rem;
-    letter-spacing: var(--tracking-uppercase);
-    text-transform: uppercase;
-    color: var(--on-surface-muted);
-}
-.hero-scrollcue-line {
-    display: block;
-    width: 3.5rem;
-    height: 1px;
-    background: var(--on-surface-faint);
-}
-
-/* =========================================================
-   3. INVENTORY — 2 columns + View All CTA
-   ========================================================= */
-.inventory {
-    position: relative;
-    padding: var(--space-10) 0 var(--space-9);
-    background: var(--surface);
-}
-
-.cards {
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
-}
-
-@media (min-width: 900px) {
-    .cards {
-        grid-template-columns: 1fr 1fr;
-        gap: var(--space-7);
-    }
-}
-
-.card {
-    background: var(--surface-2);
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 35px rgba(0, 0, 0, 0.25);
-    transition: transform var(--dur-md) var(--ease-cinema),
-                box-shadow var(--dur-md) var(--ease-cinema);
-    will-change: transform;
-}
-
-.card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 45px rgba(0, 0, 0, 0.4);
-}
-
-.card-link { display: block; }
-
-.card-media {
-    position: relative;
-    aspect-ratio: 644 / 420;
-    overflow: hidden;
-    background: var(--surface-2);
-}
-
-.card-media img {
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    transition: transform 1600ms var(--ease-quiet);
-    will-change: transform;
 }
-.card:hover .card-media img { transform: scale(1.04); }
 
-.card-body {
-    padding: var(--space-5) var(--space-5);
+.hero__media img {
+    object-fit: cover;
+    object-position: 50% 100%;
+}
+
+.hero__content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    padding-top: 27px;
+}
+
+.hero__card {
+    width: 100%;
+    max-width: 480px;
+    padding: 30px;
+    background: var(--scrim);
+    border-radius: 10px;
+}
+
+.hero__pretitle {
+    margin-bottom: 14px;
+    font: 600 14px/normal var(--f-text);
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.hero__title {
+    margin: 20px 0 10px;
+    font: 700 40px/46px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+}
+
+.hero__text {
+    margin-bottom: 14px;
+    font: 400 16px/26px var(--f-text);
+    color: var(--txt);
+}
+
+.hero__dots {
+    position: absolute;
+    top: 50%;
+    right: 75px;
+    transform: translateY(-50%);
+    z-index: 4;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    min-height: 110px;
-    justify-content: center;
+    gap: 14px;
 }
 
-.card-name {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--type-headline);
-    color: var(--on-surface);
-    text-align: center;
-}
-
-.card-specs {
+.hero__dot {
+    width: 22px;
+    height: 30px;
     display: flex;
-    gap: var(--space-5);
     align-items: center;
-    flex-wrap: wrap;
     justify-content: center;
+    font: 600 14px/30px var(--f-text);
+    text-transform: uppercase;
+    color: var(--txt);
+    transition: color .3s ease;
 }
 
-.card-specs li {
+.hero__dot.is-active { color: var(--gold-hot); }
+
+/* Gold CTA at the foot of the hero — "View All Inventory" -> /current-inventory.
+   On the live site this button exists in the markup but is never visible: the
+   slider (z-index 1) paints over it, so the slide image hides it completely.
+   Reproduced faithfully — it sits below the slides and stays hidden.
+   TO SWITCH IT ON: change z-index to 4. Nothing else needs to change. */
+.hero__cta {
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+    z-index: 1;
     display: inline-flex;
     align-items: center;
-    gap: var(--space-2);
-    font-size: var(--type-small);
-    color: var(--on-surface-soft);
-}
-
-.card-specs svg { color: var(--on-surface-soft); }
-
-.cards-cta {
-    max-width: var(--container);
-    margin: var(--space-7) auto 0;
-    padding: 0 var(--gutter);
-    display: flex;
     justify-content: center;
+    padding: 16px 41px;
+    border-radius: 3px;
+    background: var(--gold);
+    color: #000;
+    font: 600 14px/30px var(--f-text);
+    text-transform: capitalize;
+    white-space: nowrap;
+    transition: background-color .25s ease;
 }
 
-/* =========================================================
-   4. ABOUT — title-left / text-right
-   ========================================================= */
+.hero__cta:hover { background: #ffd35c; }
+
+/* --------------------------------------------------------------------------
+   6. About
+   -------------------------------------------------------------------------- */
 .about {
     position: relative;
-    padding: var(--space-10) 0 var(--space-10);
-    overflow: hidden;
-    background: var(--surface);
+    background: url("../assets/img/about_d.webp") 50% 50% / cover no-repeat;
 }
 
-.about-bg {
-    /* kept as no-op for the GSAP parallax target — invisible */
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.about-inner {
-    position: relative;
-    z-index: 1;
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-7);
-}
-
-@media (min-width: 900px) {
-    .about-inner {
-        grid-template-columns: 533fr 755fr;   /* Figma 533/755 ratio */
-        gap: var(--space-6);                  /* Figma 30px gap */
-        /* default align-items: stretch — both columns equal height */
-    }
-
-    .about-side {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-.about-side .eyebrow { margin-bottom: var(--space-3); }
-
-.about-title {
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: var(--type-display-md);
-    line-height: var(--leading-snug);
-    color: var(--on-surface);
-    margin-bottom: var(--space-6);
-}
-
-.about-actions {
+.about__inner {
     display: flex;
-    gap: var(--space-4);
-    flex-wrap: wrap;
-    margin-bottom: var(--space-6);
+    justify-content: flex-end;
+    padding-block: 114px 164px;
 }
 
-.about-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-4);
-    color: var(--on-surface-muted);
-    font-size: var(--type-body);
-    line-height: var(--leading-relaxed);
-}
-
-.about-figure {
-    margin: 0;
-    height: 100%;                          /* stretches to grid row height */
-}
-
-.about-figure img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.about__card {
+    width: 645px;
+    max-width: 100%;
+    padding: 40px 60px 52px;
+    background: var(--scrim);
+    border: 1px solid var(--line);
     border-radius: 10px;
-    display: block;
-    /* Mobile fallback aspect — overridden when grid row supplies a height */
-    aspect-ratio: 755 / 396;
 }
 
-@media (min-width: 900px) {
-    .about-figure img {
-        aspect-ratio: auto;                /* let grid row drive height on desktop */
-    }
+.about__eyebrow {
+    font: 600 14px/14px var(--f-text);
+    text-transform: uppercase;
+    color: var(--gold);
 }
 
-/* =========================================================
-   5. RECENTLY SOLD — static 4-card grid with Sold tags
-   ========================================================= */
-.sold {
-    padding: var(--space-9) 0 var(--space-9);
+.about__title {
+    margin: 0 0 30px;
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
 }
 
-.sold-grid {
-    max-width: var(--container);
-    margin: 0 auto;
-    padding: 0 var(--gutter);
+.about__text p {
+    font: 400 14px/26px var(--f-text);
+    color: var(--txt);
+}
+
+.about__actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+/* entrance animation — mirrors the site's bounceInRight / bounceInUp */
+.about__card[data-anim] {
+    opacity: 0;
+    transform: translateX(60px);
+}
+
+.about__card[data-anim].is-visible {
+    opacity: 1;
+    transform: none;
+    transition: opacity .8s ease, transform .8s cubic-bezier(.22, 1, .36, 1);
+}
+
+/* --------------------------------------------------------------------------
+   7. Recently sold
+   -------------------------------------------------------------------------- */
+.sold { background: var(--bg-sold); }
+
+.sold__inner { padding-block: 80px; }
+
+.sold__eyebrow {
+    font: 600 14px/14px var(--f-text);
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.sold__title {
+    margin: 10px 0 40px;
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+}
+
+.sold__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-5);
+    gap: 30px;
 }
 
-.sold-card {
-    will-change: transform;
-}
-
-.sold-link { display: block; }
-
-.sold-media {
+.car__media {
     position: relative;
-    aspect-ratio: 308 / 206;
+    display: block;
+    aspect-ratio: 30.8 / 20.6;
     overflow: hidden;
-    border-radius: 5px;
-    background: var(--surface-2);
-    margin-bottom: var(--space-4);
 }
 
-.sold-media img {
+.car__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1400ms var(--ease-quiet);
+    object-position: center center;
+    transition: transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+
+.car:hover .car__media img { transform: scale(1.04); }
+
+.car__tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 1px 10px;
+    background: var(--red);
+    border-radius: 50px;
+    font: italic 800 15px/1.4 var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+}
+
+.car__body {
+    padding: 16px 10px 26px;
+    background: var(--surface-card);
+    border-radius: 0 0 5px 5px;
+}
+
+.car__name {
+    font: 400 14px/normal var(--f-text);
+    text-align: center;
+    color: var(--txt-muted);
+    transition: color .25s ease;
+}
+
+.car:hover .car__name { color: var(--txt); }
+
+/* --------------------------------------------------------------------------
+   8. Instagram
+   -------------------------------------------------------------------------- */
+.ig {
+    background: var(--bg-ig);
+    padding-block: 80px;
+}
+
+.ig__icon img { width: 34px; height: 34px; margin-inline: auto; }
+
+.ig__handle {
+    margin-top: 20px;
+    font: 600 14px/normal var(--f-text);
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--gold);
+}
+
+.ig__title {
+    margin: 10px 0 40px;
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--txt);
+}
+
+/* Full-bleed to 100vw — the live gallery does the same and therefore runs a
+   scrollbar-width past the viewport; body overflow-x:hidden clips it. Kept as-is
+   so tile widths resolve to the same numbers as the original. */
+.ig__gallery {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-inline: var(--gutter);
+}
+
+.ig__arrow {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(250, 194, 41, .4);
+    border-radius: 50%;
+    color: var(--gold);
+    transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+}
+
+.ig__arrow:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: #000;
+}
+
+.ig__viewport {
+    flex: 1 1 auto;
+    overflow: hidden;
+}
+
+.ig__track {
+    display: flex;
+    gap: 16px;
+    transition: transform 1.5s cubic-bezier(.22, 1, .36, 1);
     will-change: transform;
 }
-.sold-card:hover .sold-media img { transform: scale(1.04); }
 
-.sold-tag {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: var(--accent-red);
-    color: var(--on-surface);
-    font-size: 0.6875rem;
-    font-weight: 500;
-    letter-spacing: var(--tracking-uppercase);
-    text-transform: uppercase;
-    padding: 0.25rem 0.625rem;
-    border-radius: 2px;
-    line-height: 1.3;
+/* Tiles are fluid, not fixed: 4 per view with a 16px gap (Swiper slidesPerView).
+   Breakpoints below mirror the live config — 576: 3/18, 992: 4/16. */
+.ig__slide {
+    flex: 0 0 calc((100% - 3 * 16px) / 4);
 }
 
-.sold-name {
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: var(--type-small);
-    color: var(--on-surface);
-    text-align: center;
+.ig__item {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    min-height: 300px;
+    overflow: hidden;
+    background: var(--surface-tile);
 }
 
-@media (max-width: 900px) {
-    .sold-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-6); }
-}
-@media (max-width: 480px) {
-    .sold-grid { grid-template-columns: 1fr; }
-}
-
-/* =========================================================
-   6. INSTAGRAM — centered horizontal tile band
-   ========================================================= */
-.ig {
-    padding: var(--space-9) 0 var(--space-9);
-    border-top: 1px solid var(--line);
+.ig__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
 }
 
-.ig-head {
+.ig__item:hover img { transform: scale(1.05); }
+
+/* --------------------------------------------------------------------------
+   9. Footer
+   -------------------------------------------------------------------------- */
+.footer {
+    padding-block: 88px;
+    background-image: radial-gradient(50% 50% at 50% 50%, var(--footer-core) 0%, var(--footer-edge) 100%);
+}
+
+.footer__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--line-soft);
+}
+
+.footer__brand {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--space-3);
-    text-align: center;
-    padding: 0 var(--gutter);
-    margin-bottom: var(--space-7);
+    gap: 28px;
 }
 
-.ig-icon {
-    color: var(--on-surface);
-}
-
-.ig-head .eyebrow { margin-bottom: 0; }
-
-.ig-grid {
-    max-width: 68.5rem;          /* 1096px Figma */
-    margin: 0 auto;
-    padding: 0 var(--gutter);
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-3);
-}
-
-.ig-tile {
-    aspect-ratio: 205 / 128;
-    background: var(--surface-2);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform var(--dur-md) var(--ease-cinema),
-                background-color var(--dur-md) var(--ease-cinema);
-    will-change: transform;
-}
-.ig-tile:hover {
-    transform: translateY(-2px);
-    background-color: #2e2e2e;
-}
-
-@media (max-width: 900px) {
-    .ig-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
-}
-@media (max-width: 560px) {
-    .ig-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* =========================================================
-   7. FOOTER — 5-col layout per Figma
-   ========================================================= */
-.footer {
-    background: var(--surface-footer);
-    padding: var(--space-9) var(--gutter) var(--space-5);
-    color: var(--on-surface-faint);
-}
-
-.footer-inner {
-    max-width: var(--container);
-    margin: 0 auto;
-}
-
-.footer-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    padding-bottom: var(--space-9);
-}
-
-@media (min-width: 1024px) {
-    .footer-grid {
-        grid-template-columns: 5fr 7fr;
-        gap: var(--space-10);
-        align-items: start;
-    }
-}
-
-.footer-brand .footer-logo {
-    display: inline-flex;
-    line-height: 0;
-    margin-bottom: var(--space-4);
-}
-.footer-brand .footer-logo img {
-    height: 1.1rem;
-    width: auto;
-    transition: opacity var(--dur-sm) var(--ease-cinema);
-}
-.footer-brand .footer-logo:hover img { opacity: 0.8; }
-
-.footer-tag {
-    font-size: var(--type-body-lg);
-    line-height: var(--leading-normal);
-    color: var(--on-surface);
-    font-weight: 300;
-    max-width: 32ch;
-    margin-bottom: var(--space-4);
-}
-
-.footer-address {
-    font-size: var(--type-small);
-    color: var(--on-surface-muted);
-    margin-bottom: var(--space-6);
-}
-
-.footer-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-}
-
-.footer-cols {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-7) var(--space-6);
-}
-
-@media (min-width: 720px) {
-    .footer-cols {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.footer-label {
-    display: inline-block;
-    font-family: var(--font-body);
-    font-size: var(--type-label);
-    font-weight: 600;
-    letter-spacing: var(--tracking-uppercase);
+.footer__brand h2 {
+    font: 500 18px/22px var(--f-text);
     text-transform: uppercase;
-    color: var(--on-surface);
-    margin-bottom: var(--space-4);
-    transition: color var(--dur-sm) var(--ease-cinema);
+    color: var(--txt);
 }
 
-a.footer-label:hover { color: var(--accent); }
-
-.footer-links li { padding: 0; }
-
-.footer-links a {
-    display: inline-block;
-    font-size: var(--type-label);
-    color: var(--on-surface-muted);
-    line-height: 1.7;
-    padding: 0.25rem 0;
-    transition: color var(--dur-sm) var(--ease-cinema);
+.footer__brand h3 {
+    font: italic 400 16px/26px var(--f-text);
+    color: var(--txt-grey);
 }
 
-.footer-links a:hover { color: var(--accent); }
+.footer__social { display: flex; gap: 28px; }
 
-/* Footer bottom row */
-.footer-bottom {
-    border-top: 1px solid var(--line-footer);
-    padding-top: var(--space-5);
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
-    align-items: center;
-    color: var(--on-surface-faint);
-    font-size: var(--type-label);
+/* natural size, as on the live site: instagram 27x28, youtube 28x28 */
+.footer__social img {
+    width: auto;
+    height: 28px;
+    transition: opacity .25s ease;
 }
 
-@media (min-width: 900px) {
-    .footer-bottom {
-        grid-template-columns: 2fr 1fr auto;
-        gap: var(--space-7);
+.footer__social a:hover img { opacity: .65; }
+
+.footer__nav { display: flex; gap: 90px; }
+
+.footer__nav h3 {
+    padding-bottom: 22px;
+    margin-bottom: 14px;
+    font: 500 18px/30px var(--f-text);
+    letter-spacing: 3.6px;
+    text-transform: uppercase;
+    color: var(--txt-label);
+}
+
+.footer__nav p,
+.footer__nav a {
+    font: 300 13px/30px var(--f-text);
+    color: var(--txt-dim);
+}
+
+.footer__nav a { transition: color .25s ease; }
+.footer__nav a:hover { color: var(--gold); }
+.is-underlined { text-decoration: underline; }
+
+.footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 32px;
+    padding-top: 32px;
+}
+
+.footer__credits {
+    font: 400 13px/20px var(--f-text);
+    color: var(--txt-faint);
+}
+
+.footer__credits a {
+    margin-left: 15px;
+    color: var(--txt-link);
+    transition: color .25s ease;
+}
+
+.footer__credits a:hover { color: var(--txt-faint); }
+
+.footer__power span {
+    font: 500 14px/26px var(--f-text);
+    color: var(--txt-faint);
+}
+
+.br-sm { display: none; }
+
+/* --------------------------------------------------------------------------
+   10. Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 1279px) {
+    .header__wrap { gap: 28px; }
+    .header__menu { gap: 22px; }
+    .header__menu a { font-size: 15px; }
+    .header__logo img { width: 280px; height: 70px; }
+    .hero__dots { right: 32px; }
+    .footer__nav { gap: 56px; }
+}
+
+@media (max-width: 1023px) {
+    :root { --header-h: 84px; }
+
+    .header__wrap { gap: 16px; }
+    .header__nav { display: none; }
+    .header__phone-m { display: flex; align-items: center; }
+    .header__logo { padding: 12px 0; }
+    .header__logo img { width: 220px; height: 55px; }
+
+    .header__burger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 26px;
+        height: 26px;
     }
+
+    .header__burger span {
+        display: block;
+        height: 2px;
+        width: 100%;
+        background: var(--txt);
+        transition: transform .3s ease, opacity .3s ease;
+    }
+
+    .header__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .header__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .header__burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .header__mobile {
+        display: block;
+        background: rgba(23, 23, 23, .96);
+        -webkit-backdrop-filter: blur(22.75px);
+        backdrop-filter: blur(22.75px);
+        border-top: 1px solid var(--line);
+    }
+
+    .header__mobile[hidden] { display: none; }
+
+    .header__mobile ul { padding: 12px var(--gutter) 20px; }
+
+    .header__mobile a {
+        display: block;
+        padding: 12px 0;
+        font: 500 16px/1.4 var(--f-text);
+        text-transform: uppercase;
+        color: var(--txt);
+    }
+
+    .about__inner { justify-content: center; padding-block: 80px; }
+    .about__card { width: 100%; padding: 32px 28px 40px; }
+
+    .sold__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+    /* 768–991: 3 tiles per view, 18px apart */
+    .ig__track { gap: 18px; }
+    .ig__slide { flex: 0 0 calc((100% - 2 * 18px) / 3); }
+    .ig__item { min-height: 260px; }
+
+    .footer__top { flex-direction: column; gap: 48px; }
+    .footer__nav { gap: 40px; flex-wrap: wrap; }
 }
 
-.footer-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
-    align-items: center;
+@media (max-width: 767px) {
+    .hero { min-height: 560px; }
+    .hero__content { align-items: flex-end; padding-bottom: 96px; }
+    .hero__card { max-width: none; padding: 24px; }
+    .hero__title { font-size: 30px; line-height: 36px; }
+    .hero__text { font-size: 15px; line-height: 24px; }
+
+    /* if the CTA is switched on, it stacks between card and dots */
+    .hero__cta { bottom: 92px; }
+
+    .hero__dots {
+        top: auto;
+        bottom: 36px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        flex-direction: row;
+        gap: 18px;
+    }
+
+    .about__card[data-anim] { transform: translateY(48px); }
+    .about__actions { flex-direction: column; align-items: stretch; }
+    .btn { width: 100%; }
+
+    .sold__inner { padding-block: 56px; }
+    .sold__grid { grid-template-columns: 1fr; }
+
+    .ig { padding-block: 56px; }
+    .ig__item { min-height: 0; }
+
+    .footer { padding-block: 56px; }
+    .footer__bottom { flex-direction: column; gap: 20px; }
+    .footer__credits a { margin: 0 15px 0 0; }
+    .br-sm { display: block; }
 }
 
-.footer-legal {
-    display: flex;
-    gap: var(--space-5);
-    flex-wrap: wrap;
-}
-.footer-legal a {
-    color: var(--on-surface-faint);
-    transition: color var(--dur-sm) var(--ease-cinema);
-}
-.footer-legal a:hover { color: var(--on-surface-muted); }
-
-.footer-social {
-    display: flex;
-    gap: var(--space-4);
-}
-.footer-social a {
-    color: var(--on-surface-muted);
-    line-height: 0;
-    transition: color var(--dur-sm) var(--ease-cinema);
-}
-.footer-social a:hover { color: var(--on-surface); }
-
-.footer-powered {
-    text-align: right;
-    color: var(--on-surface-muted);
-    font-size: var(--type-small);
+@media (max-width: 575.98px) {
+    /* below the 576 breakpoint the slider falls back to its base config: 4 / 16 */
+    .ig__track { gap: 16px; }
+    .ig__slide { flex: 0 0 calc((100% - 3 * 16px) / 4); }
 }
 
-/* =========================================================
-   Reduced motion
-   ========================================================= */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
         scroll-behavior: auto !important;
     }
-}
-
-/* =========================================================
-   Responsive
-   ========================================================= */
-@media (max-width: 900px) {
-    .sold-head { flex-direction: column; align-items: flex-start; }
-    .header-nav { gap: var(--space-5); }
-    .header-right { gap: var(--space-4); }
-    .footer-powered { text-align: left; }
-}
-
-@media (max-width: 720px) {
-    :root {
-        --header-h: 4rem;
-        --header-h-compact: 3.25rem;
-    }
-    .header-right .btn--sm { display: none; } /* phone CTA hidden on mobile nav, surfaced via hero */
-    .hero-sub { margin-top: var(--space-7); }
+    .about__card[data-anim] { opacity: 1; transform: none; }
 }
