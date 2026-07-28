@@ -11,6 +11,7 @@
     /* surfaces */
     --bg:              #202020;
     --bg-sold:         #141414;
+    --bg-signup:       #1a1a1a;   /* one step above sold — continues the descent */
     --bg-ig:           #0e0f10;
     --surface-card:    #262626;
     --surface-tile:    #1a1b1d;
@@ -46,6 +47,36 @@
     --shell:           1352px;   /* 1320px content + 2 x 16px gutter */
     --gutter:          16px;
     --header-h:        126px;
+
+    /* ---- Added for new components (newsletter). ------------------------
+       The 1:1 sections above keep the raw values measured from the live
+       site; everything built from here on resolves to these scales. */
+
+    /* spacing — 4px base */
+    --space-1:  4px;
+    --space-2:  8px;
+    --space-3:  12px;
+    --space-4:  16px;
+    --space-5:  24px;
+    --space-6:  32px;
+    --space-7:  48px;
+    --space-8:  64px;
+    --space-9:  96px;
+
+    /* motion */
+    --dur-1:    .15s;
+    --dur-2:    .25s;
+    --dur-3:    .4s;
+    --ease-out: cubic-bezier(.22, 1, .36, 1);   /* entering, expanding */
+    --ease-in:  cubic-bezier(.55, 0, 1, .45);   /* exiting, collapsing */
+
+    /* newsletter — all measured against the grounds they land on */
+    /* both cleared against the LIGHTEST pixel the signup gradients produce
+       (#343025), not against the flat ground — 3.20 and 4.79 respectively */
+    --nl-rule:        #7d7d7d;   /* resting field underline, >= 3:1 UI boundary */
+    --nl-rule-strong: #c4c4c4;   /* hover                                       */
+    --nl-placeholder: #9c9c9c;   /* placeholder is real text, needs 4.5         */
+    --state-error:    #ff8a8a;   /* 8.2:1, never the only signal                */
 }
 
 /* --------------------------------------------------------------------------
@@ -102,6 +133,109 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .btn--outline       { background: transparent; border: 1px solid var(--txt); }
 .btn--outline:hover { background: var(--txt); color: #000; }
+
+/* --------------------------------------------------------------------------
+   3b. Newsletter — one component, three placements
+
+   Rank is carried by the submit button, not by the form: filled gold in the
+   homepage section and the pop-up, ruled outline in the footer. Three identical
+   primary buttons would claim three firsts.
+
+   Each placement supplies its own id prefix (nl-footer-*, nl-section-*,
+   nl-popup-*) so label/field/message wiring stays unique on the page.
+   -------------------------------------------------------------------------- */
+.nl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.nl__row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-4);
+}
+
+.nl__field {
+    flex: 1 1 auto;
+    min-width: 0;
+    border-bottom: 1px solid var(--nl-rule);
+    transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.nl__field:hover        { border-bottom-color: var(--nl-rule-strong); }
+.nl__field:focus-within { border-bottom-color: var(--gold); }
+
+.u-sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.nl__input {
+    width: 100%;
+    padding: var(--space-3) 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    color: var(--txt);
+    font: 400 16px/1.5 var(--f-text);   /* 16px — never triggers iOS zoom on focus */
+}
+
+.nl__input::placeholder { color: var(--nl-placeholder); }
+.nl__input:focus        { outline: none; }   /* the shared rule carries the state */
+
+.nl__submit { flex: 0 0 auto; }
+
+/* --- inline variant (footer) -----------------------------------------------
+   Field and submit share one rule and read as a single object. Reads as an
+   action, not as prose — the lesson from the RM Sotheby's vault entry. */
+.nl--inline .nl__row {
+    align-items: center;
+    border-bottom: 1px solid var(--nl-rule);
+    transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.nl--inline .nl__row:hover        { border-bottom-color: var(--nl-rule-strong); }
+.nl--inline .nl__row:focus-within { border-bottom-color: var(--gold); }
+.nl--inline .nl__field            { border-bottom: 0; }
+
+.nl__submit--link {
+    align-self: stretch;          /* tap target fills the row, not just the text */
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+    font: 600 13px/1.2 var(--f-text);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    transition: color var(--dur-1) var(--ease-out);
+}
+
+.nl__submit--link svg       { transition: transform var(--dur-2) var(--ease-out); }
+.nl__submit--link:hover     { color: var(--txt); }
+.nl__submit--link:hover svg { transform: translateX(3px); }
+
+/* success and error are announced in words; colour only reinforces them */
+.nl__msg {
+    margin: 0;
+    font: 400 13px/20px var(--f-text);
+    color: var(--gold);
+}
+
+.nl__msg:empty { display: none; }
+.nl__msg[data-tone="error"] { color: var(--state-error); }
+
+.nl[data-state="loading"] .nl__submit {
+    opacity: .6;
+    pointer-events: none;
+}
+
+.nl[data-state="done"] .nl__row { display: none; }
 
 /* --------------------------------------------------------------------------
    4. Header
@@ -352,6 +486,56 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /* --------------------------------------------------------------------------
+   6b. Newsletter section — full-bleed band directly under About
+
+   Uses the page's own vocabulary: gold eyebrow, Jost title, outline action.
+   Its ground continues the tonal descent (#1a1a1a -> #141414 -> #0e0f10 ->
+   footer). The one thing it does differently from every other section is carry
+   no photograph — two galleries follow it, and a third image band here would
+   read as filler.
+   -------------------------------------------------------------------------- */
+/* Two radials over the flat ground — the same technique the footer already uses.
+   One neutral lift under the copy, one faint gold wash under the form so the
+   accent sits where the action is. Every value below was measured against the
+   lightest pixel the pair can produce, not against the flat colour. */
+.signup {
+    background-color: var(--bg-signup);
+    background-image:
+        radial-gradient(60% 90% at 12% 42%, rgba(255, 255, 255, .05) 0%, rgba(255, 255, 255, 0) 70%),
+        radial-gradient(46% 82% at 88% 56%, rgba(250, 194, 41, .07) 0%, rgba(250, 194, 41, 0) 72%);
+}
+
+.signup__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 460px);
+    align-items: center;
+    gap: var(--space-9);
+    padding-block: 80px;          /* the page's established section rhythm */
+}
+
+.signup__eyebrow {
+    font: 600 14px/14px var(--f-text);
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.signup__title {
+    margin: 10px 0 0;
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+    text-wrap: balance;
+}
+
+.signup__text {
+    margin: var(--space-5) 0 0;
+    max-width: 52ch;
+    font: 400 16px/26px var(--f-text);
+    color: var(--txt-dim);
+    text-wrap: pretty;            /* no stranded last word */
+}
+
+/* --------------------------------------------------------------------------
    7. Recently sold
    -------------------------------------------------------------------------- */
 .sold { background: var(--bg-sold); }
@@ -515,11 +699,172 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .ig__item:hover img { transform: scale(1.05); }
 
 /* --------------------------------------------------------------------------
+   8b. Newsletter pop-up
+
+   Photo behind, text over it. The image is the client's own slide2d — chosen
+   because its left half is empty asphalt, so the scrim can stay light on the
+   car side and still clear AA where the words are. Legibility is fixed at the
+   background layer (a directional veil), never by shadowing the text.
+   -------------------------------------------------------------------------- */
+.pop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-5);
+}
+
+.pop[hidden] { display: none; }
+
+.pop__scrim {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .72);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.pop__dialog {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 10px;              /* the brand's card radius */
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity var(--dur-3) var(--ease-out),
+                transform var(--dur-3) var(--ease-out);
+}
+
+.pop.is-open .pop__scrim  { opacity: 1; }
+.pop.is-open .pop__dialog { opacity: 1; transform: none; }
+
+.pop__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;          /* the file is cropped to 16:10 already */
+}
+
+/* directional veil — heavy where the words are, light over the car */
+.pop__veil {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(to right, rgba(8, 8, 9, .96) 0%, rgba(8, 8, 9, .94) 56%,
+                                  rgba(8, 8, 9, .48) 72%, rgba(8, 8, 9, .06) 100%),
+        linear-gradient(to top, rgba(8, 8, 9, .34) 0%, rgba(8, 8, 9, 0) 62%);
+}
+
+.pop__body {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: var(--space-7);
+    max-width: 58%;                   /* never reaches past the opaque part of the veil */
+}
+
+.pop__eyebrow {
+    font: 600 14px/14px var(--f-text);
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.pop__title {
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+    text-wrap: balance;
+}
+
+/* brighter than the section's body copy — dimmed grey over photography is
+   fragile, so text on the image stays close to white */
+.pop__text {
+    max-width: 34ch;
+    font: 400 15px/24px var(--f-text);
+    color: #e6e6e6;
+    text-wrap: pretty;
+}
+
+.pop__submit {
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    color: #000;                      /* 12.81:1 */
+}
+
+.pop__submit:hover { background: #ffd35c; border-color: #ffd35c; color: #000; }
+
+.pop__close {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
+    width: 44px;                      /* full tap target, not just the glyph */
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: var(--txt);
+    background: rgba(8, 8, 9, .55);
+    transition: background-color var(--dur-1) var(--ease-out);
+}
+
+.pop__close:hover { background: rgba(8, 8, 9, .85); }
+
+@media (max-width: 767px) {
+    .pop__dialog { aspect-ratio: auto; }
+    .pop__body { max-width: none; padding: var(--space-6) var(--space-5) var(--space-7); }
+    .pop__veil {
+        background:
+            linear-gradient(to top, rgba(8, 8, 9, .95) 0%, rgba(8, 8, 9, .88) 55%,
+                                    rgba(8, 8, 9, .45) 100%);
+    }
+    .pop__photo { object-position: 62% 40%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pop__dialog { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
    9. Footer
    -------------------------------------------------------------------------- */
 .footer {
     padding-block: 88px;
     background-image: radial-gradient(50% 50% at 50% 50%, var(--footer-core) 0%, var(--footer-edge) 100%);
+}
+
+/* Signup band above the existing footer, on the same hairline the footer already
+   uses. Left-anchored and capped — the offer sits directly on top of the field so
+   they read as one group, and the right side is left empty on purpose rather
+   than filled by pushing the two halves apart. */
+.footer__signup {
+    padding-bottom: var(--space-7);
+    border-bottom: 1px solid var(--line-soft);
+}
+
+/* the rule spans the shell like the one below it; only the content is capped */
+.footer__signup-title,
+.footer__signup .nl { max-width: 620px; }
+
+.footer__signup-title {
+    margin-bottom: var(--space-5);
+    font: 500 25px/32px var(--f-display);
+    text-transform: uppercase;
+    color: var(--txt);
+    text-wrap: balance;
 }
 
 .footer__top {
@@ -529,6 +874,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     padding-bottom: 32px;
     border-bottom: 1px solid var(--line-soft);
 }
+
+.footer__signup + .footer__top { padding-top: var(--space-6); }
 
 .footer__brand {
     display: flex;
@@ -671,12 +1018,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     .about__inner { justify-content: center; padding-block: 80px; }
     .about__card { width: 100%; padding: 32px 28px 40px; }
 
+    .signup__inner { grid-template-columns: 1fr; align-items: start; gap: var(--space-7); }
+
     .sold__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 
     /* 768–991: 3 tiles per view, 18px apart */
     .ig__track { gap: 18px; }
     .ig__slide { flex: 0 0 calc((100% - 2 * 18px) / 3); }
     .ig__item { min-height: 260px; }
+
+    .footer__signup { flex-direction: column; align-items: stretch; gap: var(--space-6); }
+    .footer__signup .nl { flex: 1 1 auto; }
 
     .footer__top { flex-direction: column; gap: 48px; }
     .footer__nav { gap: 40px; flex-wrap: wrap; }
@@ -706,11 +1058,19 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     .about__actions { flex-direction: column; align-items: stretch; }
     .btn { width: 100%; }
 
+    .signup__inner { padding-block: 56px; }
+    .signup .nl__row { flex-direction: column; align-items: stretch; gap: var(--space-4); }
+    .signup .nl__submit { width: 100%; }
+
     .sold__inner { padding-block: 56px; }
     .sold__grid { grid-template-columns: 1fr; }
 
     .ig { padding-block: 56px; }
     .ig__item { min-height: 0; }
+
+    /* the field and its submit stay on one line — they share a single rule */
+    .nl__row { gap: var(--space-3); }
+    .footer__signup-title { font-size: 22px; line-height: 28px; }
 
     .footer { padding-block: 56px; }
     .footer__bottom { flex-direction: column; gap: 20px; }
