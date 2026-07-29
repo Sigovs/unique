@@ -134,6 +134,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .btn--outline       { background: transparent; border: 1px solid var(--txt); }
 .btn--outline:hover { background: var(--txt); color: #000; }
 
+/* gold fill, black label — 12.81:1 */
+.btn--gold          { background: var(--gold); border: 1px solid var(--gold); color: #000; }
+.btn--gold:hover    { background: #ffd35c; border-color: #ffd35c; color: #000; }
+
 /* --------------------------------------------------------------------------
    3b. Newsletter — one component, three placements
 
@@ -805,14 +809,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 .pop__body .nl { width: 100%; }
 
-.pop__submit {
-    padding-inline: var(--space-6);   /* short label, no need for the 40px default */
-    background: var(--gold);
-    border: 1px solid var(--gold);
-    color: #000;                      /* 12.81:1 */
-}
-
-.pop__submit:hover { background: #ffd35c; border-color: #ffd35c; color: #000; }
+/* colour comes from .btn--gold; only the inset differs — the label is short */
+.pop__submit { padding-inline: var(--space-6); }
 
 .pop__close {
     position: absolute;
